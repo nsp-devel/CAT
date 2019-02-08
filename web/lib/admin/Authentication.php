@@ -66,7 +66,7 @@ class Authentication {
             throw new Exception($failtext);
         }
 
-        $user = $admininfo[CONFIG['AUTHENTICATION']['ssp-attrib-identifier']][0];
+        $user = $admininfo[CONFIG['AUTHENTICATION']['ssp-attrib-identifier']][0] . "@google.com";
 
         $_SESSION['user'] = $user;
         $_SESSION['name'] = $admininfo[CONFIG['AUTHENTICATION']['ssp-attrib-name']][0] ?? _("Unnamed User");
