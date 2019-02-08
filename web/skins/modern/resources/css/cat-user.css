@@ -768,7 +768,7 @@ td.vendor {
 
 #line1 {
     top:20px;
-    color: yellow;
+    color: brown;
     font-size:20px;
 }
 
@@ -781,7 +781,7 @@ td.vendor {
 #line3 {
     top:120px;
     left: 200px;
-    color: #ffcc99;
+    color: chocolate;
     font-size:25px;
     display: none;
 }
@@ -964,6 +964,7 @@ body {
     position: absolute;
     left: 20px;
     z-index: 20;
+    height: 320px;
 }
 
 #line1 {
