@@ -49,7 +49,7 @@ class Divs {
         if ($location !== FALSE) {
             $retval .= "<div id='cat_logo'>
             <a href='".CONFIG_CONFASSISTANT['CONSORTIUM']['homepage']."'><img id='logo_img' src='$location' alt='Consortium Logo'/></a>
-            <span>Configuration Assistant Tool</span>
+            <span>Enterprise Wi-Fi Configuration Assistant Tool</span>
             </div>";
         }
         $retval .= "<div id='motd'>" . (isset(CONFIG['APPEARANCE']['MOTD']) ? CONFIG['APPEARANCE']['MOTD'] : '&nbsp') . "</div>";
