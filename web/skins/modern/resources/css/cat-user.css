@@ -20,8 +20,8 @@
 
 :root {
     --color1: #FFFFFF;
-    --color2: #575757;
-    --color3: #1d4a74;
+    --color2: #65653F;
+    --color3: #DEDDD0;
 }
 
 html {
@@ -225,14 +225,14 @@ td.vendor img {
 
 #roller {
     position: relative;
-    padding-top: 140px;
+    padding-top: 155px;
     height:272px;
 }
 
 #slides {
     position: absolute;
     left: 0px;
-    height:272px;
+    height:330px;
     background: #1d4a74;
     background-image: url("../images//image_5a.jpg");
     background-size: 100%;
@@ -937,7 +937,7 @@ button.guess_os {
 
 @media all and (min-width: 750px) {
 body {
-    background: rgb(188, 205, 216);
+    background: #deddd0;
 }
 
 #institution_name {
@@ -968,7 +968,7 @@ body {
 
 #line1 {
     top:20px;
-    color: yellow;
+    color: brown;
     font-size:20px;
 }
 
@@ -981,7 +981,7 @@ body {
 #line3 {
     top:120px;
     left: 200px;
-    color: #ffcc99;
+    color: #chocolate;
     font-size:25px;
 }
 
@@ -1237,8 +1237,8 @@ img.close_button {
 }
 
 button.large_button {
-    background-color: #1d4a74;
-    border: 6px solid  #e7e7e7;
+    background-color: #65653F;
+    border: 6px solid  #DEDDD0;
     border-radius: 12px;
     padding-left:20px;
     padding-right:20px;
