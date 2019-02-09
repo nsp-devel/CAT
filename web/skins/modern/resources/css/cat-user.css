@@ -163,7 +163,7 @@ button.delete {
 #device_list button {
    min-height: 23px;
    color: white;
-    background:  #1d4a74;
+    background:  #65653F;
 }
 
 #device_list button.more_info_b {
@@ -233,7 +233,7 @@ td.vendor img {
     position: absolute;
     left: 0px;
     height:330px;
-    background: #1d4a74;
+    background: #65653F;
     background-image: url("../images//image_5a.jpg");
     background-size: 100%;
     background-repeat: no-repeat;
@@ -334,7 +334,7 @@ td.vendor img {
     left: 20%;
     text-align: justify;
     top: 200px;
-    border-top: 4px solid #1d4a74;
+    border-top: 4px solid #65653F;
     box-shadow: 0px 3px 2px 1px rgba(0,0,0,0.06)
 }
 
@@ -525,7 +525,7 @@ span.user_info_header {
    padding:0px;
    padding-right: 20px;
    width: 100%;
-   background: #1d4a74;
+   background: #65653F;
    box-sizing: border-box;
 }
 
@@ -558,7 +558,7 @@ div.footer table td {
     padding-bottom: 18px;
     padding-right: 35vw;
     padding-left: 20px;
-    background: #1d4a74;
+    background: #65653F;
     color: white;
     text-align: left;
 }
@@ -628,7 +628,7 @@ button.guess_os {
     max-width: 90%;
     padding-left: 10px;
     padding-right: 0px;
-    background-color: #1d4a74;
+    background-color: #65653F;
     color: white;
 }
 
@@ -745,7 +745,7 @@ td.vendor {
     padding-bottom: 18px;
     padding-right: 33vw;
     padding-left: 20px;
-    background: #1d4a74;
+    background: #65653F;
     color: white;
     text-align: left;
 }
@@ -845,7 +845,7 @@ button.guess_os {
     width: auto;
     padding-left: 10px;
     padding-right: 0px;
-    background-color: #1d4a74;
+    background-color: #65653F;
     color: white;
 }
 
@@ -946,7 +946,7 @@ body {
     padding-bottom: 28px;
     padding-right: 120px;
     padding-left: 30px;
-    background: #1d4a74;
+    background: #65653F;
     color: white;
     text-align: left;
 }
@@ -1043,7 +1043,7 @@ button.guess_os {
     width: 30em;
     padding-left: 10px;
     padding-right: 0px;
-    background-color: #1d4a74;
+    background-color: #65653F;
     color: white;
 }
 
@@ -1079,12 +1079,12 @@ button.guess_os {
 }
 
 #menu_top > ul > li:hover {
-    background: #1d4a74;
+    background: #65653F;
     color: white;
 }
 
 #menu_top> ul > li > span:hover, #menu_top > ul > li > a:hover {
-    background: #1d4a74;
+    background: #65653F;
     color: white;
 }
 
@@ -1139,7 +1139,7 @@ button.guess_os {
 
 #menu_top > ul > li > ul > li > a {
    position:relative;
-   background: #1d4a74;
+   background: #65653F;
    color: white;
    display: block;
    width: 200px;
@@ -1195,7 +1195,7 @@ img.close_button {
     font-size: 24px;
     font-weight: normal;
     color: white;
-    background: #1d4a74;
+    background: #65653F;
 }
 
 #main_menu_content div > div {

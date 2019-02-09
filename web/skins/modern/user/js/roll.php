@@ -151,7 +151,7 @@ function prepareAnimation() {
    Program.Add(new Picture(win8,fTM),2000);
    Program.Add(new Picture(iphone,fTM),2000);
    Program.Add(new Picture(linux,fTM),2000);
-   Program.Add(new Picture(android,fTM),2000);
+   /* Program.Add(new Picture(android,fTM),2000); */
    Program.Add(new Picture(chromeos,fTM),2000);
    Program.nextStep();
    Program.Sleep(2000);
