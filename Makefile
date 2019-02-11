@@ -13,7 +13,7 @@ documentation:
 pull_from_transifex:
 	tx pull --all --force
 
-translation: pull_from_transifex
+translation:
 	echo "****************************************"
 	echo "*** Generating templates from source ***"
 	echo "****************************************"

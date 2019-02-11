@@ -131,7 +131,7 @@ abstract class AbstractProfile extends EntityWithDBProperties {
         if (CONFIG['PATHS']['logdir']) {
             $file = fopen(CONFIG['PATHS']['logdir'] . "/download_details.log", "a");
             if ($file === FALSE) {
-                throw new Exception("Unable to open file for append: $file");
+                throw new Exception("Unable to open file for append: ".CONFIG['PATHS']['logdir'] . "/download_details.log");
             }
             fprintf($file, "%-015s;%d;%d;%s;%s;%s;%d\n", microtime(TRUE), $idpIdentifier, $profileId, $deviceId, $area, $lang, $eapType);
             fclose($file);

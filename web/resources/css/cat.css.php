@@ -214,7 +214,7 @@ div.pagecontent div.trick {
 }
 
 #secondrow {
-    background:#1d4a74;
+    background:<?php echo $colour2?>;
     color: #FFFFFF;
     min-height:100px;
     overflow: auto;

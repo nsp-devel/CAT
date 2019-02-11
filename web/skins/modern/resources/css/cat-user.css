@@ -20,8 +20,8 @@
 
 :root {
     --color1: #FFFFFF;
-    --color2: #575757;
-    --color3: #1d4a74;
+    --color2: #65653F;
+    --color3: #DEDDD0;
 }
 
 html {
@@ -163,7 +163,7 @@ button.delete {
 #device_list button {
    min-height: 23px;
    color: white;
-    background:  #1d4a74;
+    background:  #65653F;
 }
 
 #device_list button.more_info_b {
@@ -225,15 +225,15 @@ td.vendor img {
 
 #roller {
     position: relative;
-    padding-top: 140px;
+    padding-top: 155px;
     height:272px;
 }
 
 #slides {
     position: absolute;
     left: 0px;
-    height:272px;
-    background: #1d4a74;
+    height:330px;
+    background: #65653F;
     background-image: url("../images//image_5a.jpg");
     background-size: 100%;
     background-repeat: no-repeat;
@@ -334,7 +334,7 @@ td.vendor img {
     left: 20%;
     text-align: justify;
     top: 200px;
-    border-top: 4px solid #1d4a74;
+    border-top: 4px solid #65653F;
     box-shadow: 0px 3px 2px 1px rgba(0,0,0,0.06)
 }
 
@@ -525,7 +525,7 @@ span.user_info_header {
    padding:0px;
    padding-right: 20px;
    width: 100%;
-   background: #1d4a74;
+   background: #65653F;
    box-sizing: border-box;
 }
 
@@ -558,7 +558,7 @@ div.footer table td {
     padding-bottom: 18px;
     padding-right: 35vw;
     padding-left: 20px;
-    background: #1d4a74;
+    background: #65653F;
     color: white;
     text-align: left;
 }
@@ -628,7 +628,7 @@ button.guess_os {
     max-width: 90%;
     padding-left: 10px;
     padding-right: 0px;
-    background-color: #1d4a74;
+    background-color: #65653F;
     color: white;
 }
 
@@ -745,7 +745,7 @@ td.vendor {
     padding-bottom: 18px;
     padding-right: 33vw;
     padding-left: 20px;
-    background: #1d4a74;
+    background: #65653F;
     color: white;
     text-align: left;
 }
@@ -845,7 +845,7 @@ button.guess_os {
     width: auto;
     padding-left: 10px;
     padding-right: 0px;
-    background-color: #1d4a74;
+    background-color: #65653F;
     color: white;
 }
 
@@ -937,7 +937,7 @@ button.guess_os {
 
 @media all and (min-width: 750px) {
 body {
-    background: rgb(188, 205, 216);
+    background: #deddd0;
 }
 
 #institution_name {
@@ -946,7 +946,7 @@ body {
     padding-bottom: 28px;
     padding-right: 120px;
     padding-left: 30px;
-    background: #1d4a74;
+    background: #65653F;
     color: white;
     text-align: left;
 }
@@ -969,7 +969,7 @@ body {
 
 #line1 {
     top:20px;
-    color: yellow;
+    color: brown;
     font-size:20px;
 }
 
@@ -982,7 +982,7 @@ body {
 #line3 {
     top:120px;
     left: 200px;
-    color: #ffcc99;
+    color: #chocolate;
     font-size:25px;
 }
 
@@ -1044,7 +1044,7 @@ button.guess_os {
     width: 30em;
     padding-left: 10px;
     padding-right: 0px;
-    background-color: #1d4a74;
+    background-color: #65653F;
     color: white;
 }
 
@@ -1080,12 +1080,12 @@ button.guess_os {
 }
 
 #menu_top > ul > li:hover {
-    background: #1d4a74;
+    background: #65653F;
     color: white;
 }
 
 #menu_top> ul > li > span:hover, #menu_top > ul > li > a:hover {
-    background: #1d4a74;
+    background: #65653F;
     color: white;
 }
 
@@ -1140,7 +1140,7 @@ button.guess_os {
 
 #menu_top > ul > li > ul > li > a {
    position:relative;
-   background: #1d4a74;
+   background: #65653F;
    color: white;
    display: block;
    width: 200px;
@@ -1196,7 +1196,7 @@ img.close_button {
     font-size: 24px;
     font-weight: normal;
     color: white;
-    background: #1d4a74;
+    background: #65653F;
 }
 
 #main_menu_content div > div {
@@ -1238,8 +1238,8 @@ img.close_button {
 }
 
 button.large_button {
-    background-color: #1d4a74;
-    border: 6px solid  #e7e7e7;
+    background-color: #65653F;
+    border: 6px solid  #DEDDD0;
     border-radius: 12px;
     padding-left:20px;
     padding-right:20px;
