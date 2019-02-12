@@ -75,8 +75,8 @@ class Menu {
 //                        'catInfo' => ['develop', _("Become a CAT developer")]],
                 ],
                 'visibility' => 'index'],
-            ['id' => 'tou',
-                'text' => _("Terms of use"), 'catInfo' => ['tou', 'TOU']],
+//            ['id' => 'tou',
+//                'text' => _("Terms of use"), 'catInfo' => ['tou', 'TOU']],
         ];
         $this->visibility = $visibility;
     }
