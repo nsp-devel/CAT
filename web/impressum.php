@@ -1,3 +1,13 @@
+<?php
+require_once dirname(dirname(__FILE__)) . "/config/_config.php";
+require_once "./skins/modern/Divs.php";
+$Gui = new \web\lib\user\Gui();
+
+$Gui->defaultPagePrelude("Impressum / AGB / Datenschutzerklärung"); ?>
+<link rel="stylesheet" media="screen" type="text/css" href="skins/modern/resources/css/cat-user.css"/>
+<?php
+$divs = new Divs($Gui);
+?>
 <h1>Impressum (Imprint)</h1>
 <strong>NSP Network Security Proliferation Unternehmergesellschaft (haftungsbeschränkt)</strong><br/>
 Im Pfirsichhain 7, 66706 Perl, Germany, E-Mail: <a href='mailto:info@1x-config.org'>info@1x-config.org</a>, Tel.: +49 6867 5610212<br/>
@@ -112,3 +122,4 @@ Hierbei verarbeiten wir, bzw. unser Hostinganbieter Bestandsdaten, Kontaktdaten,
 Logfile-Informationen werden aus Sicherheitsgründen (z.B. zur Aufklärung von Missbrauchs- oder Betrugshandlungen) für die Dauer von maximal 7 Tagen gespeichert und danach gelöscht. Daten, deren weitere Aufbewahrung zu Beweiszwecken erforderlich ist, sind bis zur endgültigen Klärung des jeweiligen Vorfalls von der Löschung ausgenommen.</span></p><p></p><h3 id="dsg-socialmedia">Onlinepräsenzen in sozialen Medien</h3><p></p><p><span class="ts-muster-content">Wir unterhalten Onlinepräsenzen innerhalb sozialer Netzwerke und Plattformen, um mit den dort aktiven Kunden, Interessenten und Nutzern kommunizieren und sie dort über unsere Leistungen informieren zu können. Beim Aufruf der jeweiligen Netzwerke und Plattformen gelten die Geschäftsbedingungen und die Datenverarbeitungsrichtlinien deren jeweiligen Betreiber. <br>
 <br>
 Soweit nicht anders im Rahmen unserer Datenschutzerklärung angegeben, verarbeiten wir die Daten der Nutzer sofern diese mit uns innerhalb der sozialen Netzwerke und Plattformen kommunizieren, z.B. Beiträge auf unseren Onlinepräsenzen verfassen oder uns Nachrichten zusenden.</span></p><p></p><h3 id="dsg-thirdparty-googlemaps">Google Maps</h3><p></p><p><span class="ts-muster-content">Wir binden die Landkarten des Dienstes “Google Maps” des Anbieters Google LLC, 1600 Amphitheatre Parkway, Mountain View, CA 94043, USA, ein. Zu den verarbeiteten Daten können insbesondere IP-Adressen und Standortdaten der Nutzer gehören, die jedoch nicht ohne deren Einwilligung (im Regelfall im Rahmen der Einstellungen ihrer Mobilgeräte vollzogen), erhoben werden. Die Daten können in den USA verarbeitet werden. Datenschutzerklärung: <a target="_blank" href="https://www.google.com/policies/privacy/">https://www.google.com/policies/privacy/</a>, Opt-Out: <a target="_blank" href="https://adssettings.google.com/authenticated">https://adssettings.google.com/authenticated</a>.</span></p><a href="https://datenschutz-generator.de" class="dsg1-5" rel="nofollow" target="_blank">Erstellt mit Datenschutz-Generator.de von RA Dr. Thomas Schwenke</a>
+<?php echo $divs->div_footer(); ?>

@@ -286,7 +286,9 @@ class Divs {
             </td>";
             
         if (!empty(CONFIG['APPEARANCE']['privacy_notice_url'])) {
-            $retval .= "<td><a href='".CONFIG['APPEARANCE']['privacy_notice_url']."'>" . sprintf(_("%s Privacy Notice"),CONFIG_CONFASSISTANT['CONSORTIUM']['display_name']) . "</a></td>";
+            $text_de = "Impressum, AGB, Datenschutzerklärung";
+            $text_en = "Imprint, Terms of Use, Privacy Policy";
+            $retval .= "<td><a target='_new' href='".CONFIG['APPEARANCE']['privacy_notice_url']."'>" . (preg_match('/de/', $this->Gui->languageInstance->getLang()) ? $text_de : $text_en ) . "</a></td>";
         }
         $retval .= "<td>";
         if (CONFIG_CONFASSISTANT['CONSORTIUM']['name'] == "eduroam" && isset(CONFIG_CONFASSISTANT['CONSORTIUM']['deployment-voodoo']) && CONFIG_CONFASSISTANT['CONSORTIUM']['deployment-voodoo'] == "Operations Team") {
