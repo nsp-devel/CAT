@@ -12,13 +12,13 @@ $divs = new Divs($Gui);
 <div style='padding: 30px;'>
     <h1>Impressum (Imprint)</h1>
     <strong>NSP Network Security Proliferation Unternehmergesellschaft (haftungsbeschränkt)</strong><br/>
-    Im Pfirsichhain 7, 66706 Perl, Germany, E-Mail: <a href='mailto:info@1x-config.org'>info@1x-config.org</a>, Tel.: +49 6867 5610212<br/>
+    Im Pfirsichhain 7, 66706 Perl, Germany, E-Mail: <a href='mailto:info@enterprise-wifi.net'>info@enterprise-wifi.net</a>, Tel.: +49 6867 5610212<br/>
     Sitz: Perl, Geschäftsführer: Stefan Arnold Winter, Handelsregister: Amtsgericht Saarbrücken, HRB 101217, USt-IDNr.: DE291222697<br/>
     <h1>Datenschutzerklärung</h1><p>Diese Datenschutzerklärung klärt Sie über die Art, den Umfang und Zweck der Verarbeitung von personenbezogenen Daten (nachfolgend kurz „Daten“) innerhalb unseres Onlineangebotes und der mit ihm verbundenen Webseiten, Funktionen und Inhalte sowie externen Onlinepräsenzen, wie z.B. unser Social Media Profile auf (nachfolgend gemeinsam bezeichnet als „Onlineangebot“). Im Hinblick auf die verwendeten Begrifflichkeiten, wie z.B. „Verarbeitung“ oder „Verantwortlicher“ verweisen wir auf die Definitionen im Art. 4 der Datenschutzgrundverordnung (DSGVO).<br>
         <br>
     </p><h3 id="dsg-general-controller">Verantwortlicher</h3><p><span class="tsmcontroller">NSP Network Security Proliferation<br>
             Unternehmergesellschaft (haftungsbeschränkt)<br>
-            Im Pfirsichhain 7, 66706 Perl, Germany, E-Mail: info@1x-config.org, Tel.: +49 6867 5610212<br>
+            Im Pfirsichhain 7, 66706 Perl, Germany, E-Mail: info@enterprise-wifi.net, Tel.: +49 6867 5610212<br>
             Sitz: Perl, Geschäftsführer: Stefan Arnold Winter, Handelsregister: Amtsgericht Saarbrücken, HRB 101217, USt-IDNr.: DE291222697</span></p><h3 id="dsg-general-datatype">Arten der verarbeiteten Daten:</h3><p>-	Bestandsdaten (z.B., Namen, Adressen).<br>
         -	Kontaktdaten (z.B., E-Mail, Telefonnummern).<br>
         -	Inhaltsdaten (z.B., Texteingaben, Fotografien, Videos).<br>
@@ -129,11 +129,11 @@ $divs = new Divs($Gui);
         66706 Perl</h1>
     <h2>Version 1.1</h2>
     <p>Die NSP Network Security Proliferation UG (haftungsbeschränkt)
-        (nachfolgend: NSP) bietet auf der Internetseite: <a href='https://new.1x-config.org'>https://new.1x-config.org</a> einen
+        (nachfolgend: NSP) bietet auf der Internetseite: <a href='https://enterprise-wifi.net'>https://enterprise-wifi.net</a> einen
         Webservice für Netzbetreiber, die lokale Netze, die mit Standard IEEE 802.1X
         abgesichert sind, betreiben (Enterprise-Security-Netzwerke).
         Gewerbliche Netzbetreiber, die Unternehmer i.S.d. § 14 BGB sind (nachfolgend:
-        KUNDEN) können auf <a href='https://new.1x-config.org'>https://new.1x-config.org</a> öffentliche Konfigurationsdetails
+        KUNDEN) können auf <a href='https://enterprise-wifi.net'>https://enterprise-wifi.net</a> öffentliche Konfigurationsdetails
         ihres Netzes (z.B. CA-Zertifikat, das den Anmeldeserver identifiziert, Name des
         Netzes, Logo der zugehörigen Firma, Nutzungsbedingungen des Firmennetzes etc.)
         einpflegen, um damit ein für dieses Netz spezifisches Installationsprogramm zu
@@ -144,7 +144,7 @@ $divs = new Divs($Gui);
         kommt kein Vertragsverhältnis zu Stande.
     </p>
     <p>
-        Mit dem von <a href='https://new.1x-config.org'>https://new.1x-config.org</a> erzeugten Installationsprogramm können die
+        Mit dem von <a href='https://enterprise-wifi.net'>https://enterprise-wifi.net</a> erzeugten Installationsprogramm können die
         Rechner der Nutzer des KUNDEN automatisch mit allen nötigen Sicherheitsparametern
         installiert werden. Ausgenommen sind die persönlichen Daten der jeweiligen Nutzer,
         wie z.B. Benutzername/Passwort/persönliches Zertifikat.</p>
@@ -152,7 +152,7 @@ $divs = new Divs($Gui);
         <li>Vertragsgegenstand:
             <ol>
                 <li>NSP stellt dem KUNDEN einen Benutzerbereich unter 
-                    <a href='https://new.1x-config.org'>https://new.1x-config.org</a> zur
+                    <a href='https://enterprise-wifi.net'>https://enterprise-wifi.net</a> zur
                     Verfügung, mit dem er seinen Nutzern Installationsprogramme zur Einrichtung
                     eines Netzwerkzuganges als Download zur Verfügung stellen kann (nachfolgend:
                     WEBSERVICE).</li>
