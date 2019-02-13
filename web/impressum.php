@@ -9,6 +9,7 @@ $Gui->defaultPagePrelude("Impressum / AGB / Datenschutzerklärung");
 <?php
 $divs = new Divs($Gui);
 ?>
+<div style='padding: 30px;'>
 <h1>Impressum (Imprint)</h1>
 <strong>NSP Network Security Proliferation Unternehmergesellschaft (haftungsbeschränkt)</strong><br/>
 Im Pfirsichhain 7, 66706 Perl, Germany, E-Mail: <a href='mailto:info@1x-config.org'>info@1x-config.org</a>, Tel.: +49 6867 5610212<br/>
@@ -126,7 +127,7 @@ Sitz: Perl, Geschäftsführer: Stefan Arnold Winter, Handelsregister: Amtsgerich
 <h1>Allgemeine Nutzungs- und Lizenzbedingungen der NSP Network 
     Security Proliferation UG (haftungsbeschränkt), Im Pfirsichhain 7, 
     66706 Perl</h1>
-<h2>Version 1.0</h2>
+<h2>Version 1.1</h2>
 <p>Die NSP Network Security Proliferation UG (haftungsbeschränkt)
     (nachfolgend: NSP) bietet auf der Internetseite: <a href='https://new.1x-config.org'>https://new.1x-config.org</a> einen
     Webservice für Netzbetreiber, die lokale Netze, die mit Standard IEEE 802.1X
@@ -169,77 +170,20 @@ Sitz: Perl, Geschäftsführer: Stefan Arnold Winter, Handelsregister: Amtsgerich
                 herunterladen und ausführen.</li>
         </ol>
     </li>
-    <li>Vergütung bei Premium- und Enterprise-Accounts:
-        <ol>
-            <li>NSP bietet 3 verschiedene Nutzungsmodelle an:<br/>
-                Standard-Account (kostenfrei), Premium-Account (Vergütung 5,- EUR pro
-                Monat), Enterprise-Account (Vergütung 50,- EUR pro Monat)</li>
-            <li>Alle Preisangaben verstehen sich inkl. Mehrwertsteuer für einen
-                Nutzungszeitraum von einem Monat.</li>
-        </ol>
-    </li>
-    <li>Nutzungsrechte - Laufzeit - Kündigung
+    <li>Nutzungsrechte
         <ol>
             <li>Mit der Registrierung bei dem WEBSERVICE erhält der KUNDE ein zeitlich
-                auf den Zeitraum der Registrierung beschränktes Recht, die von dem
-                WEBSERVICE angebotenen Standard-Funktionen kostenfrei zu gewerblichen
-                und/oder privaten Zwecken zu nutzen. Während des Bestehens eines Premium-
-                oder Enterprise-Accounts erhält der KUNDE zudem das zeitlich beschränkte
-                einfache Recht, Installationsprogramme mit Premium- oder
-                Enterprise-Funktionen zu nutzen.</li>
-            <li>Die Funktionen des Standard-, Premium,- oder Enterprise-Accounts können
-                unter folgener URL eingesehen werden:
-                <a href='https://new.1x-config.org/tour4.php'>https://new.1x-config.org/tour4.php</a>.</li> 
-            <li>Die Vergütung bezieht sich ausschließlich auf die Premium- oder 
-                Enterprise-Funktionen, die für den bezahlten Zeitraum freigeschaltet
-                werden; die Basisfunktionalität der Installationsprogramme bleibt kostenlos.</li>
-            <li>Ein Upgrade in einen höheren Account ist jederzeit möglich. Sollte
-                bereits ein Premium-Account bestehen wird das noch nicht verbrauchte Premium-Guthaben
-                in die entprechende Zeitspanne für Enterprise-Accounts umgewandelt.</li>
-            <li>Die Einrichtung eines Premium- oder Enterprise-Accounts erfolgt für
-                einen Zeitraum von mindestens 6 Monaten ab dem Tag der Einrichtung; Verlängerungen
-                eines bestehenden Accounts sind ebenfalls jederzeit und für mindestens
-                sechs weitere Monate möglich.</li>
-            <li>Da es sich bei den Installationsprogrammen jeweils um im Kundenauftrag
-                gefertigte Einzelstücke handelt und diese nach erfolgreicher Aktivierung
-                des Premium- oder Enterprise-Status sofort nutzbar und vom KUNDEN
-                speicherbar sind, ist die Vergütung nicht erstattungsfähig, auch wenn der
-                KUNDE seinen Premium- oder Enterprise-Account nicht nutzt.</li>
-            <li>Installationsprogramme mit Enterprise-Funktionen werden mit einem
-                Signaturzertifikat von NSP erzeugt.</li>
+                unbeschränktes Recht, die von dem
+                WEBSERVICE angebotenen Funktionen kostenfrei zu gewerblichen
+                und/oder privaten Zwecken zu nutzen.</li>
         </ol>
     </li>
     <li>Kündigung - Löschung von Kundenaccounts
         <ol>
-            <li>Premium- oder Enterprise-Nutzungsrechte werden vom KUNDEN im Voraus für mindestens
-                sechs Monate erworben und kann jederzeit für jeweils mindestens sechs weitere
-                Monate verlängert werden. Das Nutzungsrecht erlischt mit Ende des erworbenen
-                Zeitraums automatisch.</li>
-            <li>Mit dem Ablauf der erworbenen Premium- oder Enterprise-Zeitspanne erlischt das
-                Recht zur Nutzung der Installationsprogramme mit Premium- oder Enterprise-Funktionen.
-                Ab diesem Zeitpunkt werden auf dem WEBSERVICE wieder die
-                Installationsprogramme mit Standardfunktionen bereitgestellt. Eventuell
-                noch bei dem KUNDEN vorliegende Kopien der Installationsprogramme mit
-                Premium- oder Enterprise-Funktionen dürfen nicht mehr genutzt werden.</li>
-            <li>Das Recht zur außerordentlichen Kündigung aus wichtigem Grund bleibt
-                unberührt.</li>
-            <li>Kündigungen bedürfen der Textform (E-Mail, Fax, Brief).</li>
-            <li>NSP behält sich das Recht vor, von Kunden eingerichtete Standard-Accounts
+            <li>NSP behält sich das Recht vor, von Kunden eingerichtete Accounts
                 jederzeit ohne Vorankündigung zu löschen, wenn der einfache Verdacht
                 besteht, dass die Installationsprogramme des Accounts missbräuchlich
                 genutzt werden.</li>
-            <li>Der Missbrauch eines Installationsprogrammes eines Premium- oder
-                Enterprise-Accounts stellt einen wichtigen Kündigungsgrund dar. Bei einer
-                berechtigten Kündigung aus wichtigem Grund durch NSP erfolgt eine 
-                anteilige Rückerstattung bereits gezahlter Entgelte an den KUNDEN.</li>
-        </ol>
-    </li>
-    <li>Werbeeinblendungen
-        <ol>
-            <li>NSP ist gegenüber KUNDEN ohne Premium- oder Enterprise-Status
-                berechtigt, auf den Internetseiten Werbung von Werbepartnern einzublenden.</li>
-            <li>Hierzu wird regelmäßig Google-Adsense verwendet. Das nähere regelt die
-                Datenschutzerklärung auf der NSP-Internetseite.</li>
         </ol>
     </li>
     <li>Pflichten des KUNDEN
@@ -253,10 +197,7 @@ Sitz: Perl, Geschäftsführer: Stefan Arnold Winter, Handelsregister: Amtsgerich
             <li>Aus den bei dem WEBSERVICE hinterlegten Angaben des KUNDEN erzeugt NSP
                 ohne manuelle Überprüfung die Installationsprogramme. Der KUNDE ist für 
                 fehlerhafte Eingaben und/oder Falschangaben in dem WEBSERVICE voll 
-                verantwortlich. Bei der erstmaligen Aktivierung eines
-                Enterprise-Accounts wird NSP eine zusätzliche Validierung eines Teils der
-                hinterlegten Daten vornehmen (Name des Identitätsproviders,
-                Rechnungsadresse, ggf. Autorisierung durch die IT-Abteilung des KUNDEN).</li>
+                verantwortlich.</li>
         </ol>
     </li>
     <li>Haftung von NSP
@@ -267,7 +208,7 @@ Sitz: Perl, Geschäftsführer: Stefan Arnold Winter, Handelsregister: Amtsgerich
             <li>Die Haftung von NSP ist – gleich aus welchen Rechtsgründen – ausgeschlossen,
                 es sei denn, die Schadensursache beruht auf Vorsatz und/oder grober
                 Fahrlässigkeit von NSP oder der Mitarbeiter, der Vertreter oder der
-                Erfüllungsgehilfen von NSP Soweit die Haftung von NSP ausgeschlossen oder
+                Erfüllungsgehilfen von NSP. Soweit die Haftung von NSP ausgeschlossen oder
                 beschränkt ist, gilt dies auch für die persönliche Haftung von Arbeitnehmern,
                 Vertretern oder Erfüllungsgehilfen von NSP.</li>
             <li>Für Schäden aus der Verletzung des Lebens, des Körpers oder der
@@ -304,20 +245,6 @@ Sitz: Perl, Geschäftsführer: Stefan Arnold Winter, Handelsregister: Amtsgerich
                 die Nichtverfügbarkeit vorsätzlich oder grob fahrlässig verschuldet.</li>
         </ol>
     </li>
-    <li>Nutzung des Forums
-        <ol>
-            <li>Das Urheberrecht für die eingestellten Beiträge in dem Forum des 
-                WEBSERVICES verbleibt beim jeweiligen KUNDEN bzw. Nutzer.</li>
-            <li>Der Nutzer räumt NSP mit dem Einstellen seines Beitrags in das Forum 
-                jedoch das Recht ein, den Beitrag dauerhaft in dem Forum des WEBSERVICES 
-                zum Abruf bereitzuhalten und öffentlich zugänglich zu machen. NSP hat das
-                Recht, Beiträge in dem WEBSERVICE mit anderen Inhalten zu verbinden.</li>
-            <li>Der Nutzer hat gegen NSP keinen Anspruch auf Löschung oder Berichtigung
-                von ihm erstellter Beiträge.</li>
-            <li>Das Weitere regeln die Nutzungsbedingungen des auf dem WEBSERVICE
-                abrufbaren Forums.</li>
-        </ol>
-    </li>
     <li>Schlussbestimmungen
         <ol>
             <li>Nebenabreden bedürfen der Schriftform.</li>
@@ -335,5 +262,5 @@ Sitz: Perl, Geschäftsführer: Stefan Arnold Winter, Handelsregister: Amtsgerich
         </ol>
     </li>
 </ol>
-
+</div>
 <?php echo $divs->div_footer(); ?>
