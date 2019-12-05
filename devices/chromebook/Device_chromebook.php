@@ -1,4 +1,5 @@
 <?php
+
 /*
  * *****************************************************************************
  * Contributions to this work were made on behalf of the GÉANT project, a 
@@ -239,6 +240,12 @@ class Device_Chromebook extends \core\DeviceConfig {
         $eaparray["SaveCredentials"] = true;
         $eaparray["ServerCARefs"] = $caRefs; // maybe takes just one CA?
         $eaparray["UseSystemCAs"] = false;
+        // we can only set one single string, which has to be "contained" in the
+        // actual incoming server name. This is less secure than wpa_supplicant's
+        // altSubjectMatch but it is all we have.
+        if ($this->longestNameSuffix() !== "") {
+            $eaparray["SubjectMatch"] = $this->longestNameSuffix();
+        }
 
         if ($outerId !== NULL) {
             $eaparray["AnonymousIdentity"] = $outerId;
@@ -325,8 +332,10 @@ class Device_Chromebook extends \core\DeviceConfig {
      * @return string HTML text to be displayed in the information window
      */
     public function writeDeviceInfo() {
+        \core\common\Entity::intoThePotatoes();
         $out = "<p>";
-        $out .= _("This installer is an example only. It produces a zip file containig the IdP certificates, info and logo files (if such have been defined by the IdP administrator) and a dump of all available attributes.");
+        $out .= _("The installer is a file with the extension '.onc'. Please download it, open Chrome, and navigate to the URL <a href='chrome://net-internals/#chromeos'>chrome://net-internals/#chromeos</a>. Then, use the 'Import ONC file' button. The import is silent; the new network definitions will be added to the preferred networks.");
+        \core\common\Entity::outOfThePotatoes();
         return $out;
     }
 

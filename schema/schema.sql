@@ -172,7 +172,6 @@ INSERT INTO `profile_option_dict` VALUES
 ('device-specific:redirect','URL to redirect the user to when he selects this device','string','ML'),
 ('eap-specific:customtext','extra text to be displayed to the user when downloading an installer for this EAP type','text','ML'),
 ('device-specific:geantlink','Use GEANTlink TTLS supplicant for W8', 'boolean',NULL),
-('device-specific:builtin_ttls','Use builtin TTLS supplicant for Windows 10', 'boolean',NULL),
 ('eap-specific:tls_use_other_id','use different user name','boolean',NULL),
 ('eap:ca_file','certificate of the CA signing the RADIUS server key','file',NULL),
 ('eap:server_name','name of authorized RADIUS server','string',NULL),
@@ -258,6 +257,7 @@ CREATE TABLE `silverbullet_certificate` (
   `revocation_time` TIMESTAMP DEFAULT '2001-01-01 00:00:00',
   `OCSP` BLOB DEFAULT NULL,
   `OCSP_timestamp` TIMESTAMP DEFAULT '2001-01-01 00:00:00',
+  `extrainfo` longblob DEFAULT NULL,
   PRIMARY KEY (`id`, `profile_id`, `silverbullet_user_id`)  COMMENT '',
   INDEX `fk_silverbullet_certificate_silverbullet_user1_idx` (`silverbullet_user_id` ASC, `profile_id` ASC)  COMMENT '',
   INDEX `fk_silverbullet_certificate_silverbullet_invitation1_idx` (`silverbullet_invitation_id` ASC)  COMMENT '', /* new index */
@@ -271,4 +271,17 @@ CREATE TABLE `silverbullet_certificate` (
     REFERENCES `silverbullet_invitation` (`id`)
     ON DELETE CASCADE
     ON UPDATE NO ACTION)
+ENGINE = InnoDB CHARSET=utf8;
+
+CREATE TABLE `diagnosticrun` (
+  `test_id` VARCHAR(128) NOT NULL,
+  `last_touched` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `realm` VARCHAR(128) NOT NULL,
+  `visited_flr` VARCHAR(10) DEFAULT NULL, 
+  `visited_hotspot` VARCHAR(128) DEFAULT NULL,
+  `suspects` LONGBLOB DEFAULT NULL,
+  `evidence` LONGBLOB DEFAULT NULL,
+  `questionsasked` LONGBLOB DEFAULT NULL,
+  `concluded` TINYINT(1) DEFAULT 0,
+  PRIMARY KEY (`test_id`))
 ENGINE = InnoDB CHARSET=utf8;

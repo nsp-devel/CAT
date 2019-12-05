@@ -1,3 +1,62 @@
+Changes in 2.0.3
+================
+- [FEATURE #1]  Be compatible with RHEL/CentOS 8 (use GMagick instead of IMagick
+                as this is what these distributions are moving towards)
+- [FEATURE #2]  make it less dangerous to configure Passpoint settings by
+                excluding known-problematic combinations (namely Apple products
+                and username/password based EAP types)
+- [FEATURE #3]  config now allows to set display names for Passpoint RCOIs 
+                for RCOIs added manually by the IdP admin, use a fixed string
+                not related to the consortium instead ("<IdP> Roaming Partner")
+- [BUGFIX  #1]  using "which" is not yielding expected results to find 
+                executables under php-fpm, so use a more direct method to find
+                out whether configured executables exist and are executable
+- [BUGFIX  #2]  some compatibility fixes for CentOS 8
+
+Configuration parameter changes
+-------------------------------
+- CONFIG_CONFASSISTANT['CONSORTIUM']['interworking_consorium_oi'] now uses the
+                array indexes as names for the consortium DisplayName (string)
+                
+
+                
+Changes in 2.0.2
+================
+- [FEATURE #1]  hide expired and revoked silverbullet client certs behind a
+                click to unclutter view
+- [FEATURE #2]  add button to show auth logs for a given user in silverbullet
+- [FEATURE #3]  show the realm of silverbullet profiles in the NRO overview
+- [FEATURE #4]  add API action: change silverbullet end user expiry date
+- [FEATURE #5]  show timestamp of last change of profile information on main
+                download page
+- [FEATURE #6]  separate silverbullet users into "current" and "previous" ones;
+                hide the latter behind a non-default tab to reduce clutter
+- [FEATURE #7]  allow actual *deletion* of a silverbullet user if he has expired
+                and we do not have any authentication records of him (any more)
+- [FEATURE #8]  ChromeOS installers can now also pin the server name, not just
+                the CA (one string only though, not a list of names; lists will
+                be condensed into a common suffix)
+- [BUGFIX  #1]  language was not correctly applied in parts of the admin area
+                and Windows installers
+- [BUGFIX  #2]  provide Roaming Consortium OI in uppercase hex letters for the
+                Apple installer, only then do they actually work
+- [BUGFIX  #3]  the admin API action ENDUSER-IDENTIFY now only returns the 
+                correct result set, not additional garbage afterwards
+- [BUGFIX  #4]  mailto: links are now created correctly on main download page
+- [BUGFIX  #5]  importing silverbullet users with CSV now operational again
+
+- BEHAVIOUR CHANGE: GEANTlink becomes the non-default on every platform (except
+                    W7 where it is required for TTLS support). Those who have
+                    explicitly enabled GEANTLink in W8 will also get it enabled 
+                    on W10 during release DB conversion. It is still possible to
+                    steer the inclusion per-platform with the fine-tuning 
+                    settings later on.
+
+Configuration parameter changes
+-------------------------------
+- CONFIG_CONFASSISTANT['DB'] list with DB access details to silverbullet RADIUS
+                servers (to retrieve their auth logs)
+
 Changes in 2.0-beta3
 ====================
 - [FEATURE #1]  allow to invite more than one admin for a new institution.

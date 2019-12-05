@@ -38,6 +38,7 @@ use \Exception;
  class Device_W8_10 extends WindowsCommon {
     final public function __construct() {
         parent::__construct();
+        \core\common\Entity::intoThePotatoes();
         $this->setSupportedEapMethods(
                 [
                     \core\common\EAP::EAPTYPE_TLS,
@@ -47,16 +48,23 @@ use \Exception;
                     \core\common\EAP::EAPTYPE_SILVERBULLET
                 ]);
         $this->specialities['internal:use_anon_outer'][serialize(\core\common\EAP::EAPTYPE_PEAP_MSCHAP2)] = _("Anonymous identities do not use the realm as specified in the profile - it is derived from the suffix of the user's username input instead.");
+        \core\common\Entity::outOfThePotatoes();
     }
+    
+    /**
+     * create the actual installer executable
+     * 
+     * @return string filename of the generated installer
+     *
+     */    
     public function writeInstaller() {
-        $dom = textdomain(NULL);
-        textdomain("devices");
+        \core\common\Entity::intoThePotatoes();
         // create certificate files and save their names in $caFiles arrary
         $caFiles = $this->saveCertificateFiles('der');
         $this->caArray = $this->getAttribute('internal:CAs')[0];
         $outerId = $this->determineOuterIdString();
         $this->useAnon = $outerId === NULL ? FALSE : TRUE;
-        $this->servers = empty($this->attributes['eap:server_name']) ? '' :  implode(';', $this->attributes['eap:server_name']);
+        $this->servers = empty($this->attributes['eap:server_name']) ? '' : implode(';', $this->attributes['eap:server_name']);
         $allSSID = $this->attributes['internal:SSID'];
         $delSSIDs = $this->attributes['internal:remove_SSID'];
         $this->prepareInstallerLang();
@@ -69,7 +77,7 @@ use \Exception;
                 $delProfiles[] = $ssid;
             }
             if ($cipher == 'TKIP') {
-                $delProfiles[] = $ssid . ' (TKIP)';
+                $delProfiles[] = $ssid.' (TKIP)';
             }
         }
         $windowsProfile = [];
@@ -77,16 +85,24 @@ use \Exception;
         $iterator = 0;
         foreach ($allSSID as $ssid => $cipher) {
             if ($cipher == 'TKIP') {
-                $windowsProfile[$iterator] = $this->writeWLANprofile($ssid . ' (TKIP)', $ssid, 'WPA', 'TKIP', $eapConfig, $iterator);
+                $windowsProfile[$iterator] = $this->writeWLANprofile($ssid.' (TKIP)', $ssid, 'WPA', 'TKIP', $eapConfig, $iterator);
                 $iterator++;
             }
             $windowsProfile[$iterator] = $this->writeWLANprofile($ssid, $ssid, 'WPA2', 'AES', $eapConfig, $iterator);
             $iterator++;
         }
-        if (($this->device_id !== 'w8') && (count($this->attributes['internal:consortia']) > 0 )) {
-            // this SSID name is later used in common.inc so if you decide to chage it here change it there as well
+        if ($this->device_id !== 'w8') {
+            $roamingPartner = 1;
+            foreach ($this->attributes['internal:consortia'] as $oneCons) {
+                $knownOiName = array_search($oneCons, CONFIG_CONFASSISTANT['CONSORTIUM']['interworking-consortium-oi']);
+                if ($knownOiName === FALSE) { // a custom RCOI as set by the IdP admin; do not use the term "eduroam" in that one!
+                    $knownOiName = $this->attributes['general:instname'][0] . " "._("Roaming Partner") . " $roamingPartner";
+                    $roamingPartner++;
+                }
                 $ssid = 'cat-passpoint-profile';
-                $windowsProfile[$iterator] = $this->writeWLANprofile($ssid, $ssid, 'WPA2', 'AES', $eapConfig, $iterator, TRUE);
+                $windowsProfile[$iterator] = $this->writeWLANprofile($knownOiName, $ssid, 'WPA2', 'AES', $eapConfig, $iterator, $oneCons);
+                $iterator++;
+            }
         }
         if ($setWired) {
             $this->writeLANprofile($eapConfig);
@@ -106,8 +122,8 @@ use \Exception;
         $this->writeMainNSH($this->selectedEap, $this->attributes);
         $this->compileNSIS();
         $installerPath = $this->signInstaller();
-        textdomain($dom);
-        return($installerPath);
+        \core\common\Entity::outOfThePotatoes();
+        return $installerPath;
     }
 
     private function setAuthorId() {
@@ -123,8 +139,8 @@ use \Exception;
         return($authorId);
     }
 
-    private function addConsortia() {
-        if ($this->device_id == 'w8') {
+    private function addConsortia($oi) {
+        if ($this->device_id == 'w8' || $oi == '') {
             return('');
         }
         $retval = '<Hotspot2>';
@@ -135,8 +151,7 @@ use \Exception;
             $retval .=  $this->attributes['internal:realm'][0];
         }
         $retval .= '</DomainName>';
-        $retval .= '<RoamingConsortium><OUI>' . 
-            implode('</OUI><OUI>', $this->attributes['internal:consortia']) .
+        $retval .= '<RoamingConsortium><OUI>' . $oi .
             '</OUI></RoamingConsortium>';
         $retval .=  '</Hotspot2>';
         return($retval);
@@ -372,16 +387,12 @@ use \Exception;
         return('<ConfigBlob></ConfigBlob>');
     }
 
+    /**
+     * Set the GEANTLink usage flag based on device settings
+     */
     private function setGeantLink() {
-        $this->useGeantLink = FALSE;
         if (\core\common\Entity::getAttributeValue($this->attributes, 'device-specific:geantlink', 0) === 'on') {
             $this->useGeantLink = TRUE;
-        }
-        if (isset($this->options['args']) && $this->options['args'] == 'gl') {
-            $this->useGeantLink = TRUE;
-        }
-        if (\core\common\Entity::getAttributeValue($this->attributes, 'device-specific:builtin_ttls', 0) === 'on') {
-            $this->useGeantLink = FALSE;
         }
     }
 
@@ -425,9 +436,10 @@ use \Exception;
      * @param string $encryption can be one of: "TKIP", "AES"
      * @param array $eapConfig XML configuration block with EAP config data
      * @param int $profileNumber counter, which profile number is this
+     * @param string $oi nonempty value indicates that this is a Passpoint profile or a given OI value
      * @return string
      */
-    private function writeWLANprofile($wlanProfileName, $ssid, $auth, $encryption, $eapConfig, $profileNumber, $hs20 = FALSE) {
+    private function writeWLANprofile($wlanProfileName, $ssid, $auth, $encryption, $eapConfig, $profileNumber, $oi = '') {
         $profileFileCont = '<?xml version="1.0"?>
 <WLANProfile xmlns="http://www.microsoft.com/networking/WLAN/profile/v1">
 <name>' . $wlanProfileName . '</name>
@@ -437,9 +449,7 @@ use \Exception;
 </SSID>
 <nonBroadcast>true</nonBroadcast>
 </SSIDConfig>';
-        if ($hs20) {
-            $profileFileCont .= $this->addConsortia();
-        }
+        $profileFileCont .= $this->addConsortia($oi);
         $profileFileCont .= '
 <connectionType>ESS</connectionType>
 <connectionMode>auto</connectionMode>
@@ -477,7 +487,8 @@ use \Exception;
         $xmlFname = "w8/wlan_prof-$profileNumber.xml";
         file_put_contents($xmlFname, $profileFileCont . $eapConfig['win'] . $closing);
         $this->loggerInstance->debug(2, "Installer has been written into directory $this->FPATH\n");
-        return("\"$wlanProfileName\" \"$encryption\"");
+        $hs20 = $oi == '' ? 0 : 1;
+        return("\"$wlanProfileName\" \"$encryption\" $hs20");
     }
 
     private function writeLANprofile($eapConfig) {

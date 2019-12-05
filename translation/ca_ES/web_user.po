@@ -3,14 +3,15 @@
 # This file is distributed under the same license as the PACKAGE package.
 #
 # Translators:
-# eduki <ecercos@xtec.cat>, 2013,2015-2018
+# eduki <ecercos@xtec.cat>, 2013,2015-2019
 # eduki <ecercos@xtec.cat>, 2012
+# jmontane, 2019
 msgid ""
 msgstr ""
 "Project-Id-Version: eduroam CAT\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-01-14 13:42+0100\n"
-"PO-Revision-Date: 2018-11-08 12:24+0000\n"
+"POT-Creation-Date: 2019-09-13 14:56+0200\n"
+"PO-Revision-Date: 2019-09-04 08:19+0000\n"
 "Last-Translator: eduki <ecercos@xtec.cat>\n"
 "Language-Team: Catalan (Spain) (http://www.transifex.com/eduroam_devel/cat/"
 "language/ca_ES/)\n"
@@ -43,9 +44,8 @@ msgstr ""
 "personalitzats per a diverses plataformes conegudes. Un instal·lador generat "
 "per a una organització pot no funcionar per a usuaris d'una altra, per tant "
 "si la vostra organització no es troba a la llista no podeu fer servir aquest "
-"sistema. Si us plau contacteu amb els administradors locals i proveu de "
-"convèncer-los per a afegir la configuració de %s a <span class='edu_cat'> "
-"%s</span>."
+"sistema. Contacteu amb els administradors locals i proveu de convèncer-los "
+"per a afegir la configuració de %s a <span class='edu_cat'> %s</span>."
 
 #: web/user/about_cat.inc.php:45
 #, php-format
@@ -184,9 +184,7 @@ msgstr "Afegiu una traducció"
 #: web/user/devel.inc.php:27
 msgid ""
 "If you would like to add a new language to CAT then please contact us ..."
-msgstr ""
-"Si voleu afegir un nou llenguatge a CAT, si us plau contacteu amb "
-"nosaltres ..."
+msgstr "Si voleu afegir un nou llenguatge a CAT, contacteu amb nosaltres ..."
 
 #: web/user/devel.inc.php:28
 msgid "Documentation"
@@ -206,11 +204,11 @@ msgid ""
 "server and will abort the login. Using an installer from a different "
 "organisation is <i>guaranteed to not work</i>!"
 msgstr ""
-"No! Els instal.ladors contenen paràmetres de seguretat que són específics "
+"No! Els instal·ladors contenen paràmetres de seguretat que són específics "
 "per l'organització. Si no en sou membre, el vostre dispositiu detectarà que "
 "esteu a punt d'enviar l'identificador i credencial a un servidor no "
-"autoritzat i abortarà la connexió. Utilitzar un instal.lador d'una "
-"organització diferent és <i>garantia de malfuncionament</i>!"
+"autoritzat i avortarà la connexió. Utilitzar un instal·lador d'una "
+"organització diferent és <i>garantia de mal funcionament</i>!"
 
 #: web/user/faq.inc.php:33 web/user/faq.php:30
 msgid "What can I do to get my organisation listed?"
@@ -250,8 +248,8 @@ msgid ""
 "I can connect to %s simply by providing username and password, what is the "
 "point of using an installer?"
 msgstr ""
-"Puc connectar-me a %s simplement suministrant l'identificador i la "
-"contrasenya, quina utilitat té l'instal.lador?"
+"Puc connectar-me a %s simplement subministrant l'identificador i la "
+"contrasenya, quina utilitat té l'instal·lador?"
 
 #: web/user/faq.inc.php:44 web/user/faq.php:41
 #, php-format
@@ -270,7 +268,7 @@ msgstr ""
 #: web/user/faq.inc.php:47 web/user/faq.php:52
 #, php-format
 msgid "Is it safe to use %s installers?"
-msgstr "És segur utilitzar els instal.ladors d' %s?"
+msgstr "És segur utilitzar els instal·ladors d'%s?"
 
 #: web/user/faq.inc.php:48 web/user/faq.php:53
 #, php-format
@@ -278,7 +276,7 @@ msgid ""
 "%s installers configure security settings on your device, therefore you "
 "should be sure that you are using genuine ones."
 msgstr ""
-"El instal.ladors %s configuren paràmetres de seguretat en el vostre "
+"Els instal·ladors %s configuren paràmetres de seguretat en el vostre "
 "dispositiu, per tan assegureu-vos que esteu utilitzant els autèntics."
 
 #: web/user/faq.inc.php:48 web/user/faq.php:53
@@ -287,7 +285,7 @@ msgid ""
 "This is why %s installers are digitally signed by %s. Watch out for a system "
 "message confirming this."
 msgstr ""
-"Per això els instal.ladors %s estan signats digitalment per %s. Comproveu "
+"Per això els instal·ladors %s estan signats digitalment per %s. Comproveu "
 "els missatges de sistema que ho confirmin."
 
 #: web/user/faq.inc.php:52 web/user/faq.php:57
@@ -296,7 +294,7 @@ msgid ""
 "commonly downloaded and possibly harmful. Should I be concerned?"
 msgstr ""
 "L'\"SmartScreen\" de Windows o l'Internet Explorer m'informen que el fitxer "
-"no es descarrega habitualment i és potencialment danyí. M'he de preocupar?"
+"no es baixa habitualment i és potencialment danyí. M'he de preocupar?"
 
 #: web/user/faq.inc.php:53 web/user/faq.php:58
 msgid ""
@@ -305,11 +303,11 @@ msgid ""
 "users to make Microsoft consider it popular (which would strangely enough "
 "make it be considered 'safe'). This message alone is not a security problem."
 msgstr ""
-"Contrariament al que el nom suggereix, l'\"SmartScreen\" no és realment molt "
-"intel.ligent. L'avís significa que el fitxer encara no ha estat descarregat "
-"per suficients usuaris per ser considerat per Microsoft com a popular (i, "
-"per estrany que sembli, suficient per ser 'segur'). Aquest missatge per si "
-"sol no és un problema de seguretat."
+"Contràriament al que el nom suggereix, l'\"SmartScreen\" no és realment molt "
+"intel·ligent. L'avís significa que el fitxer encara no ha estat baixat per "
+"suficients usuaris per ser considerat per Microsoft com a popular (i, per "
+"estrany que sembli, suficient per ser 'segur'). Aquest missatge per si sol "
+"no és un problema de seguretat."
 
 #: web/user/faq.inc.php:53 web/user/faq.php:58
 #, php-format
@@ -317,13 +315,12 @@ msgid ""
 "So long as the file is carrying a valid signature from %s, the download is "
 "safe."
 msgstr ""
-"Donat que el fitxer conté una signatura vàlida de %s, la descàrrega és "
-"segura."
+"Donat que el fitxer conté una signatura vàlida de %s, la baixada és segura."
 
 #: web/user/faq.inc.php:53 web/user/faq.php:58
 #, php-format
 msgid "Please see also Microsoft's FAQ regarding SmartScreen at %s."
-msgstr "Sisplau consulteu també les PMF de Microsoft sobre l'SmartScreen a %s."
+msgstr "Consulteu també les PMF de Microsoft sobre l'SmartScreen a %s."
 
 #: web/user/faq.inc.php:57 web/user/faq.php:72
 #, php-format
@@ -364,12 +361,30 @@ msgstr "Tinc una pregunta sobre aquesta web. Amb qui puc contactar?"
 msgid "You should send a mail to %s."
 msgstr "Podeu enviar un correu electrònic a %s."
 
-#: web/user/faq.inc.php:71 web/user/faq.php:46
+#: web/user/faq.inc.php:73 web/user/faq.php:46
 #, php-format
 msgid "What is this %s thing anyway?"
 msgstr "Però que és això de %s?"
 
-#: web/user/faq.inc.php:72 web/user/faq.php:47
+#: web/user/faq.inc.php:74
+#, php-format
+msgid ""
+"%s is a global WiFi roaming consortium which gives members of education and "
+"research access to the internet <i>for free</i> on all %s hotspots on the "
+"planet. There are several million %s users already, enjoying free internet "
+"access on more than %d hotspots! Visit <a href='http://www.eduroam.org'>the "
+"%s homepage</a> or <a href='http://monitor.eduroam.org/map_service_loc."
+"php'>the %s location map</a> for more details."
+msgstr ""
+"%s és un consorci global de WiFi en itinerància que subministra als membres "
+"de la comunitat educativa i investigadors accés a internet <i>lliure</i> a "
+"tots els punts d'accés %s del planeta. Hi ha milions d'usuaris %s, "
+"disfrutant d'accés lliure a internet a més de %d punts d'accés! Visiteu <a "
+"href='http://www.eduroam.org'>la pàgina inicial d'%s</a> o <a href='http://"
+"monitor.eduroam.org/map_service_loc.php'> el mapa de localització %s </a>per "
+"a més detalls."
+
+#: web/user/faq.php:47
 #, php-format
 msgid ""
 "%s is a global WiFi roaming consortium which gives members of education and "
@@ -427,19 +442,19 @@ msgstr "Condicions d'ús"
 msgid "(for legal reasons, the Terms of Use are in English only)"
 msgstr "(per raons legals, les Condicions d'ús es troben només en anglès)"
 
-#: web/4013.php:44 web/404.php:43 web/lib/user/TextTemplates.php:88
+#: web/4013.php:44 web/404.php:43 web/lib/user/TextTemplates.php:90
 #, php-format
 msgid "Welcome to %s"
 msgstr "Us donem la benvinguda a %s"
 
 #: web/4013.php:47 web/404.php:46
 msgid "View this page in"
-msgstr "Veure aquesta pàgina en"
+msgstr "Mostra aquesta pàgina en"
 
 #: web/4013.php:53 web/404.php:52 web/skins/modern/Menu.php:48
 #: web/skins/modern/Menu.php:122
 msgid "Start page"
-msgstr "Pàgina d'inici"
+msgstr "Inici"
 
 #: web/4013.php:57
 msgid "Maybe this is the CAT you are looking for..."
@@ -461,8 +476,8 @@ msgid ""
 "Your mistake? Our error? Who knows! Maybe you should go back to the <a "
 "href='%s'>Start Page</a>."
 msgstr ""
-"Error vostre? Nostre? Qui sap! Potser haur&iacute;eu de tornar enrera a la "
-"<a href='%s'>P&agrave;gina inicial</a>."
+"Error vostre? Nostre? Qui sap! Potser hauríeu de tornar a la pàgina d'<a "
+"href='%s'>Inici</a>."
 
 #: web/404.php:56
 msgid "This is not the CAT you are looking for."
@@ -482,33 +497,33 @@ msgid ""
 "staring at you. Your mistake? Our error? Who knows! Maybe you should go back "
 "to the <a href='%s'>Start Page</a>."
 msgstr ""
-"mirant-te. Error vostre? Nostre? Qui sap! Potser hau&iacute;eu de tornar a "
-"la <a href='%s'>P&agrave;gina d'inici</a>"
+"mirant-te. Error vostre? Nostre? Qui sap! Potser hauíeu de tornar a la "
+"pàgina <a href='%s'>Inici</a>"
 
-#: web/tou.php:70 web/skins/modern/Divs.php:289
+#: web/tou.php:70 web/skins/modern/Divs.php:291
 #, php-format
 msgid "%s Privacy Notice"
 msgstr "%s avís de privacitat"
 
-#: web/lib/user/TextTemplates.php:81
+#: web/lib/user/TextTemplates.php:83
 #, php-format
 msgid "Welcome aboard the %s user community!"
 msgstr "Benvingut/da a la comunitat d'usuaris de %s!"
 
-#: web/lib/user/TextTemplates.php:82
+#: web/lib/user/TextTemplates.php:84
 msgid ""
 "Your download will start shortly. In case of problems with the automatic "
 "download please use this direct <a href=''>link</a>."
 msgstr ""
-"La vostra descàrrega s'iniciarà en breu. Si hi ha problemes amb la "
-"descàrrega automàtica podeu fer servir aquest <a href=''>enllaç</a>."
+"La baixada s'iniciarà en breu. Si hi ha problemes amb la baixada automàtica "
+"podeu fer servir aquest <a href=''>enllaç</a>."
 
-#: web/lib/user/TextTemplates.php:83 web/skins/modern/div_user_welcome.php:30
+#: web/lib/user/TextTemplates.php:85 web/skins/modern/div_user_welcome.php:30
 #, php-format
 msgid "Dear user from %s,"
 msgstr "Benvolgut/da usuari de %s,"
 
-#: web/lib/user/TextTemplates.php:84
+#: web/lib/user/TextTemplates.php:86
 #, php-format
 msgid ""
 "Now that you have downloaded and installed a client configurator, all you "
@@ -516,12 +531,12 @@ msgid ""
 "credentials (this is our fancy name for 'username and password' or 'personal "
 "certificate') - and be online!"
 msgstr ""
-"Un cop heu descarregat i instal.lat el configurador de client, només cal que "
+"Un cop heu baixat i instal·lat el configurador de client, només cal que "
 "trobeu un punt %s a prop i introduïu les vostres credencials (és el nom que "
 "donem a 'identificador i contrasenya' o 'certificat personal') i connecteu-"
 "vos!"
 
-#: web/lib/user/TextTemplates.php:85 web/skins/modern/div_user_welcome.php:38
+#: web/lib/user/TextTemplates.php:87 web/skins/modern/div_user_welcome.php:38
 #, php-format
 msgid ""
 "Should you have any problems using this service, please always contact the "
@@ -533,11 +548,11 @@ msgstr ""
 "en la seva resolució. Podeu comunicar-hi per qualsevol dels mitjans indicats "
 "més amunt."
 
-#: web/lib/user/TextTemplates.php:86 web/skins/modern/div_user_welcome.php:41
+#: web/lib/user/TextTemplates.php:88 web/skins/modern/div_user_welcome.php:41
 msgid "Back to downloads"
-msgstr "Torna a Descàrregues"
+msgstr "Torna a Baixades"
 
-#: web/lib/user/TextTemplates.php:87
+#: web/lib/user/TextTemplates.php:89
 #, php-format
 msgid ""
 "we would like to warmly welcome you among the several million users of %s! "
@@ -550,92 +565,101 @@ msgstr ""
 "milers d'universitats, centres de recerca i d'altres llocs arreu del món. I "
 "de forma totalment gratuïta!"
 
-#: web/lib/user/TextTemplates.php:89
+#: web/lib/user/TextTemplates.php:91
 #, php-format
 msgid "Connect your device to %s"
-msgstr "Connecta el teu dispositiu a %s"
-
-#: web/lib/user/TextTemplates.php:90
-#, php-format
-msgid "%s installation made easy:"
-msgstr "%s fa la instal.lació fàcil:"
-
-#: web/lib/user/TextTemplates.php:91
-msgid "Custom built for your organisation"
-msgstr "Fet a mida per a la vostra organització"
+msgstr "Connecteu el vostre aparell a %s"
 
 #: web/lib/user/TextTemplates.php:92
 #, php-format
-msgid "Click here to download your %s installer"
-msgstr "Cliqueu aquí per a descarregar el vostre instal·lador %s"
+msgid "%s installation made easy:"
+msgstr "%s fa la instal·lació fàcil:"
 
 #: web/lib/user/TextTemplates.php:93
+msgid "Custom built for your organisation"
+msgstr "Fet a mida per a la vostra organització"
+
+#: web/lib/user/TextTemplates.php:94
+#, php-format
+msgid "Click here to download your %s installer"
+msgstr "Feu clic aquí per a baixar-vos l'instal·lador %s"
+
+#: web/lib/user/TextTemplates.php:95
+#, php-format
+msgid ""
+"%s provides access to thousands of Wi-Fi hotspots around the world, free of "
+"charge. <a href='%s'>Learn more</a>"
+msgstr ""
+"%sproveeix l'accés a milers de punts d'accés Wi-FI a tot el mon, sense cost. "
+"<a href='%s'>Saber més</a>"
+
+#: web/lib/user/TextTemplates.php:96
 msgid "Select the user group"
 msgstr "Escolliu el grup d'usuaris"
 
-#: web/lib/user/TextTemplates.php:94
+#: web/lib/user/TextTemplates.php:97
 msgid "select another"
-msgstr "selecciona un altre"
+msgstr "selecciona'n una altra"
 
-#: web/lib/user/TextTemplates.php:95
+#: web/lib/user/TextTemplates.php:98
 msgid "Choose another installer to download"
-msgstr "Escolliu un altre instal·lador per a descarregar"
+msgstr "Trieu un altre instal·lador per a baixar"
 
-#: web/lib/user/TextTemplates.php:96
+#: web/lib/user/TextTemplates.php:99
 msgid "All platforms"
 msgstr "Per a totes les plataformes"
 
-#: web/lib/user/TextTemplates.php:97
+#: web/lib/user/TextTemplates.php:100
 #, php-format
 msgid "Download your %s installer"
-msgstr "Descarregueu-vos el vostre instal.lador %s "
+msgstr "Baixeu-vos l'instal·lador %s "
 
-#: web/lib/user/TextTemplates.php:98
+#: web/lib/user/TextTemplates.php:101
 msgid ""
 "Your local administrator has specified a redirect to a local support page."
 "<br>When you click <b>Continue</b> this support page will be opened in a new "
 "window/tab."
 msgstr ""
 "El vostre administrador ha especificat una redirecció a una pàgina de suport "
-"local.<br>Quan cliqueu a <b>Continua</b> aquesta pàgina de suport s'obrirà "
-"en una nova finestra/pestanya."
+"local.<br>Si feu clic en <b>Continua</b> s'obrirà aquesta pàgina de suport "
+"en una finestra o pestanya nova."
 
-#: web/lib/user/TextTemplates.php:99
-#: web/skins/modern/accountstatus/accountstatus.php:224
-#: web/skins/modern/user/js/cat_js.php:278
-#: web/skins/modern/user/js/cat_js.php:286
+#: web/lib/user/TextTemplates.php:102
+#: web/skins/modern/accountstatus/accountstatus.php:226
+#: web/skins/modern/user/js/cat_js.php:279
+#: web/skins/modern/user/js/cat_js.php:287
 msgid "Continue"
 msgstr "Continua"
 
-#: web/lib/user/TextTemplates.php:100
+#: web/lib/user/TextTemplates.php:103
 #, php-format
 msgid "Digitally signed by the organisation that coordinates %s"
 msgstr "Signat digitalment per la organització que coordina %s"
 
-#: web/lib/user/TextTemplates.php:101
+#: web/lib/user/TextTemplates.php:104
 #, php-format
 msgid ""
 "You can download your %s installer via a personalised invitation link sent "
 "from your IT support. Please talk to the IT department to get this link."
 msgstr ""
-"Podeu descarregar l'instal·lador %s a través d'un enllaç personalitzat "
-"enviat pel vostre equip de suport TIC. Contacteu amb el vostre departament "
-"TIC per aconseguir aquest enllaç."
+"Podeu baixar l'instal·lador %s a través d'un enllaç personalitzat enviat pel "
+"vostre equip de suport TIC. Contacteu amb el vostre departament TIC per "
+"aconseguir aquest enllaç."
 
-#: web/lib/user/TextTemplates.php:102
+#: web/lib/user/TextTemplates.php:105
 #, php-format
 msgid ""
 "This site provides %s installers for many organisations, click here to see "
 "if yours is on the list."
 msgstr ""
-"Aquest web facilita instal·ladors de %s per a diverses organitzacions, "
-"cliqueu aquí per veure si la vostra organització hi és."
+"Aquest web facilita instal·ladors de %s per a diverses organitzacions, feu "
+"clic aquí per a veure si la vostra organització hi és."
 
-#: web/lib/user/TextTemplates.php:103
+#: web/lib/user/TextTemplates.php:106
 msgid "Custom built for you"
 msgstr "Manufactura personalitzada per a tu"
 
-#: web/lib/user/TextTemplates.php:105
+#: web/lib/user/TextTemplates.php:108
 #, php-format
 msgid "Digitally signed by the organisation that coordinates %s: %s"
 msgstr "Signat digitalment per la organització que coordina %s: %s"
@@ -659,7 +683,7 @@ msgid ""
 "credentials (this is our fancy name for 'username and password' or 'personal "
 "certificate') - and be online!"
 msgstr ""
-"Un cop heu descarregat i insta·lat el configurador de client, només cal que "
+"Un cop heu baixat i instal·lat el configurador de client, només cal que "
 "trobeu un punt eduroam® a prop i introduïu les vostres credencials (és el "
 "nom que donem a 'identificador i contrasenya' o 'certificat personal') i "
 "connecteu-vos!"
@@ -676,11 +700,11 @@ msgstr "Quant a"
 #: web/skins/modern/Menu.php:54
 #, php-format
 msgid "About %s"
-msgstr "Sobre %s"
+msgstr "Quant a %s"
 
 #: web/skins/modern/Menu.php:58
 msgid "Language"
-msgstr "Idioma"
+msgstr "Llengua"
 
 #: web/skins/modern/Menu.php:60 web/skins/modern/Menu.php:63
 #: web/skins/modern/user/cat_info.php:69
@@ -715,7 +739,7 @@ msgstr "Anàlisi"
 
 #: web/skins/modern/Menu.php:71
 msgid "Manage"
-msgstr "Gestionar"
+msgstr "Gestió"
 
 #: web/skins/modern/Menu.php:72
 #, php-format
@@ -735,43 +759,43 @@ msgstr "Convertiu-vos en desenvolupador de CAT"
 msgid "Terms of use"
 msgstr "Condicions del servei"
 
-#: web/skins/modern/accountstatus/accountstatus.php:77
+#: web/skins/modern/accountstatus/accountstatus.php:79
 msgid ""
 "You attempted to download an installer that was already downloaded before. "
 "Please request a new token from your administrator instead."
 msgstr ""
-"Heu intentat descarregar un instal·lador que ja ha estat descarregat. "
-"Sol·liciteu un nou codi al vostre administrador."
+"Heu intentat baixar un instal·lador que ja ha s'ha baixat. Sol·liciteu un "
+"nou codi al vostre administrador."
 
-#: web/skins/modern/accountstatus/accountstatus.php:77
+#: web/skins/modern/accountstatus/accountstatus.php:79
 msgid "Attempt to re-use download link"
-msgstr "Intent de reutilitzar l'enllaç de descàrrega"
+msgstr "Intent de reutilitzar l'enllaç de baixada"
 
-#: web/skins/modern/accountstatus/accountstatus.php:88
+#: web/skins/modern/accountstatus/accountstatus.php:90
 #, php-format
 msgid "You are a new user without a history of %s credentials."
 msgstr "Sou un usuari nou sense historial de credencials %s."
 
-#: web/skins/modern/accountstatus/accountstatus.php:94
+#: web/skins/modern/accountstatus/accountstatus.php:96
 #, php-format
 msgid "You have <strong>%d</strong> currently valid %s credential."
 msgid_plural "You have <strong>%d</strong> currently valid %s credentials."
 msgstr[0] "Teniu <strong>%d</strong> credencial %s vàlida actualment."
 msgstr[1] "Teniu <strong>%d</strong> credencials %s vàlides actualment."
 
-#: web/skins/modern/accountstatus/accountstatus.php:98
+#: web/skins/modern/accountstatus/accountstatus.php:100
 #, php-format
 msgid "<strong>%d</strong> of your credentials is not valid any more."
 msgid_plural "<strong>%d</strong> of your credentials are not valid any more."
 msgstr[0] "<strong>%d</strong> de les vostres credencials ja no és vàlida."
 msgstr[1] "<strong>%d</strong> de les vostres credencials ja no són vàlides."
 
-#: web/skins/modern/accountstatus/accountstatus.php:100
+#: web/skins/modern/accountstatus/accountstatus.php:102
 msgid "I want to see the details."
 msgstr "Vull veure'n els detalls."
 
 #. only show this extra info in the non-trivial case.
-#: web/skins/modern/accountstatus/accountstatus.php:109
+#: web/skins/modern/accountstatus/accountstatus.php:111
 #, php-format
 msgid ""
 "Your invitation token is valid for %d more device activations (%d have "
@@ -780,7 +804,7 @@ msgstr ""
 "La vostra invitació és vàlida per a %d activacions de dispositius més (ja "
 "n'heu fet servir %d)"
 
-#: web/skins/modern/accountstatus/accountstatus.php:112
+#: web/skins/modern/accountstatus/accountstatus.php:114
 msgid ""
 "Unfortunately, we are unable to determine your device's operating system. If "
 "you have made modifications on your device which prevent it from being "
@@ -790,11 +814,10 @@ msgid ""
 msgstr ""
 "Malauradament no podem determinar el sistema operatiu del vostre dispositiu. "
 "Si heu fet modificacions al vostre dispositiu que no ens permeten reconèixer-"
-"lo ( com ara personalitzar el 'User Agent'), desfeu-les si us plau. Podreu "
-"tornar a aquesta pàgina posteriorment; l'enllaç de la invitació no s'ha fet "
-"servir."
+"lo ( com ara personalitzar el 'User Agent'), desfeu-les. Podreu tornar a "
+"aquesta pàgina posteriorment; l'enllaç de la invitació no s'ha fet servir."
 
-#: web/skins/modern/accountstatus/accountstatus.php:119
+#: web/skins/modern/accountstatus/accountstatus.php:121
 #, php-format
 msgid ""
 "Unfortunately, the operating system your device uses (%s) is currently not "
@@ -807,13 +830,13 @@ msgstr ""
 "amb un sistema operatiu suportat més endavant; l'enllaç de la invitació no "
 "s'ha fet servir."
 
-#: web/skins/modern/accountstatus/accountstatus.php:131
+#: web/skins/modern/accountstatus/accountstatus.php:133
 #, php-format
 msgid "You can now download a personalised  %s installation program."
-msgstr "Podeu descarregar-vos el programa d'instal·lació de %s personalitzat."
+msgstr "Podeu baixar el programa d'instal·lació de %s personalitzat."
 
 #. echo sprintf(_("The installation program is <span class='emph'>strictly personal</span>, to be used <span class='emph'>only on this device (%s)</span>, and it is <span class='emph'>not permitted to share</span> this information with anyone."), $statusInfo['OS']['display']);
-#: web/skins/modern/accountstatus/accountstatus.php:133
+#: web/skins/modern/accountstatus/accountstatus.php:135
 #, php-format
 msgid ""
 "The installation program is <span class='emph'>strictly personal</span>, to "
@@ -825,7 +848,7 @@ msgstr ""
 "(%s)</span>, i <span class='emph'>no està permès compartir</span> aquesta "
 "informació amb ningú."
 
-#: web/skins/modern/accountstatus/accountstatus.php:134
+#: web/skins/modern/accountstatus/accountstatus.php:136
 #, php-format
 msgid ""
 "When the system detects abuse such as sharing login data with others, all "
@@ -836,7 +859,7 @@ msgstr ""
 "altres, tots els vostres drets d'accés seran revocats i podreu ser "
 "sancionats pel vostre administrador local %s."
 
-#: web/skins/modern/accountstatus/accountstatus.php:135
+#: web/skins/modern/accountstatus/accountstatus.php:137
 msgid ""
 "During the installation process, you will be asked for the following import "
 "PIN. This only happens once during the installation. You do not have to "
@@ -845,17 +868,17 @@ msgstr ""
 "Durant la instal·lació se us preguntarà pel següent PIN d'importació. Només "
 "passa una vegada. No heu d'escriure aquest PIN enlloc."
 
-#: web/skins/modern/accountstatus/accountstatus.php:140
+#: web/skins/modern/accountstatus/accountstatus.php:142
 #, php-format
 msgid "Import PIN: %s"
 msgstr "PIN per a l'importació: %s"
 
-#: web/skins/modern/accountstatus/accountstatus.php:145
+#: web/skins/modern/accountstatus/accountstatus.php:147
 #, php-format
 msgid "Click here to download your %s installer!"
-msgstr "Cliqueu aquí per a descarregar el vostre instal·lador de %s!"
+msgstr "Feu clic aquí per a baixar l'instal·lador de %s!"
 
-#: web/skins/modern/accountstatus/accountstatus.php:150
+#: web/skins/modern/accountstatus/accountstatus.php:152
 #, php-format
 msgid ""
 "Unfortunately, the invitation link you just used is too old. The %s sign-up "
@@ -864,21 +887,20 @@ msgid ""
 msgstr ""
 "Malauradament l'enllaç de la invitació que heu fet servir és massa antic. "
 "L'enllaç d'invitació a %sera vàlid fins el %s. No el podeu fer servir més. "
-"Demaneu si us plau al vostre administrador que us faciliti una nova "
-"invitació."
+"Demaneu al vostre administrador que us faciliti una nova invitació."
 
-#: web/skins/modern/accountstatus/accountstatus.php:157
+#: web/skins/modern/accountstatus/accountstatus.php:159
 msgid "Account information not found"
 msgstr "No s'ha trobat informació del compte"
 
-#: web/skins/modern/accountstatus/accountstatus.php:158
+#: web/skins/modern/accountstatus/accountstatus.php:160
 #, php-format
 msgid ""
 "The invitation link you followed does not map to any invititation we have on "
 "file."
 msgstr "L'enllaç que heu seguit no es correspon amb cap invitació registrada."
 
-#: web/skins/modern/accountstatus/accountstatus.php:158
+#: web/skins/modern/accountstatus/accountstatus.php:160
 #, php-format
 msgid ""
 "You should use the exact link you got during sign-up to come here. "
@@ -888,11 +910,11 @@ msgid ""
 msgstr ""
 "Per arribar aquí heu de fer servir l'enllaç idèntic obtingut en el procés "
 "d'alta. Alternativament, si ja teniu credencials d'accés vàlid de %s, podeu "
-"visitar aquesta pàgina i acceptar la pregunta sobre accés amb certificat de "
-"client (seleccioneu un certificat amb un nom acabat en '...%s')."
+"visitar aquesta pàgina i acceptar la pregunta sobre l'accés amb certificat "
+"de client (seleccioneu un certificat amb un nom acabat en '...%s')."
 
-#: web/skins/modern/accountstatus/accountstatus.php:191
-#: web/skins/modern/user/js/cat_js.php:245
+#: web/skins/modern/accountstatus/accountstatus.php:193
+#: web/skins/modern/user/js/cat_js.php:246
 msgid ""
 "If you encounter problems, then you can obtain direct assistance from your "
 "organisation at:"
@@ -900,64 +922,64 @@ msgstr ""
 "Si trobeu problemes, podeu obtenir assistència directa des de la vostra "
 "organització a:"
 
-#: web/skins/modern/accountstatus/accountstatus.php:193
-#: web/skins/modern/user/js/cat_js.php:247
+#: web/skins/modern/accountstatus/accountstatus.php:195
+#: web/skins/modern/user/js/cat_js.php:248
 msgid ""
 "If you encounter problems you should ask those who gave you your account for "
 "help."
 msgstr ""
 "Si trobeu problemes, cal que demaneu ajuda a qui us va facilitar el compte."
 
-#: web/skins/modern/accountstatus/accountstatus.php:209
+#: web/skins/modern/accountstatus/accountstatus.php:211
 #, php-format
 msgid "Your personal %s account status page"
 msgstr "Pàgina d'estat del vostre compte personal %s"
 
-#: web/skins/modern/accountstatus/accountstatus.php:245
+#: web/skins/modern/accountstatus/accountstatus.php:247
 msgid "Current login tokens"
 msgstr "Codis d'accés actuals"
 
-#: web/skins/modern/accountstatus/accountstatus.php:246
+#: web/skins/modern/accountstatus/accountstatus.php:248
 msgid "Previous login tokens"
 msgstr "Codis d'accés anteriors"
 
-#: web/skins/modern/accountstatus/accountstatus.php:247
+#: web/skins/modern/accountstatus/accountstatus.php:249
 msgid "Revoked login tokens"
 msgstr "Codis d'accés revocats"
 
-#: web/skins/modern/accountstatus/accountstatus.php:248
+#: web/skins/modern/accountstatus/accountstatus.php:250
 msgid "Serial Number"
 msgstr "Número de sèrie"
 
-#: web/skins/modern/accountstatus/accountstatus.php:248
+#: web/skins/modern/accountstatus/accountstatus.php:250
 msgid "Pseudonym"
 msgstr "Pseudònim"
 
-#: web/skins/modern/accountstatus/accountstatus.php:248
+#: web/skins/modern/accountstatus/accountstatus.php:250
 msgid "Device Type"
 msgstr "Tipus de dispositiu"
 
-#: web/skins/modern/accountstatus/accountstatus.php:248
+#: web/skins/modern/accountstatus/accountstatus.php:250
 msgid "Issue Date"
 msgstr "Data de publicació"
 
-#: web/skins/modern/accountstatus/accountstatus.php:248
+#: web/skins/modern/accountstatus/accountstatus.php:250
 msgid "Expiry Date"
 msgstr "Data de caducitat"
 
-#: web/skins/modern/accountstatus/accountstatus.php:258
+#: web/skins/modern/accountstatus/accountstatus.php:260
 msgid "invalid token"
 msgstr "codi invàlid"
 
-#: web/skins/modern/accountstatus/accountstatus.php:270
+#: web/skins/modern/accountstatus/accountstatus.php:272
 msgid "revoke"
 msgstr "revoca"
 
-#: web/skins/modern/accountstatus/accountstatus.php:284
+#: web/skins/modern/accountstatus/accountstatus.php:286
 msgid "The details are displayed below."
 msgstr "Els detalls es mostren més avall."
 
-#: web/skins/modern/accountstatus/accountstatus.php:290
+#: web/skins/modern/accountstatus/accountstatus.php:292
 msgid "Really revoke this access credential?"
 msgstr "Realment voleu revocar aquestes credencials d'accés?"
 
@@ -967,8 +989,8 @@ msgid ""
 "You must have received an invitation from your %s %s before being able to "
 "manage your %s. If that is the case, please continue and log in."
 msgstr ""
-"Heu hagut de rebre una invitació del vostre %s d'%s abans de poder gestionar "
-"la vostra %s. Si és el cas, sisplau continueu endavant."
+"Heu d'haver rebut una invitació del vostre %s d'%s abans de poder gestionar "
+"la vostra %s. Si és el cas, continueu endavant."
 
 #: web/skins/modern/user/cat_info.php:101
 msgid "Please authenticate yourself and login"
@@ -1000,7 +1022,7 @@ msgid ""
 "have been notified. We will try to take care of the problem as soon as "
 "possible."
 msgstr ""
-"Això és vergonyós. La generació del vostre instal.lador ha fallat. Els "
+"Això és vergonyós. La generació de l'instal·lador ha fallat. Els "
 "administradors del sistema han estat avisats. Procurarem resoldre el "
 "problema el més aviat possible."
 
@@ -1013,69 +1035,73 @@ msgstr "no s'ha trobat informació coincident"
 msgid "select"
 msgstr "selecciona"
 
-#: web/skins/modern/user/js/cat_js.php:239
+#: web/skins/modern/user/js/cat_js.php:238
+msgid "This entry was last updated at:"
+msgstr "Actualitzada per darrer cop:"
+
+#: web/skins/modern/user/js/cat_js.php:240
 msgid "WWW:"
 msgstr "www:"
 
-#: web/skins/modern/user/js/cat_js.php:241
+#: web/skins/modern/user/js/cat_js.php:242
 msgid "email:"
 msgstr "correu electrònic:"
 
-#: web/skins/modern/user/js/cat_js.php:243
+#: web/skins/modern/user/js/cat_js.php:244
 msgid "tel:"
 msgstr "tel:"
 
-#: web/skins/modern/user/js/cat_js.php:265
-#: web/skins/modern/user/js/cat_js.php:291
+#: web/skins/modern/user/js/cat_js.php:266
+#: web/skins/modern/user/js/cat_js.php:292
 msgid ""
 "This device cannot be configured with the settings used in your organisation."
 msgstr ""
 "Aquest dispositiu no pot ser configurat amb les opcions especificades per la "
 "vostra organització."
 
-#: web/skins/modern/user/js/cat_js.php:278
+#: web/skins/modern/user/js/cat_js.php:279
 msgid ""
 "Your site administrator has specified that this device should be configured "
 "with resources located on a local page. When you click <b>Continue</b> this "
 "page will be opened in a new window/tab."
 msgstr ""
 "L'administrador ha especificat que aquest dispositiu haurà de ser configurat "
-"amb recursos situats en una pàgina local. Quan cliqueu a <b>Continuar</b> "
-"aquesta pàgina s'obrirà en una nova finestra."
+"amb recursos situats en una pàgina local. Si feu clic en <b>Continuar</b> "
+"s'obrirà aquesta pàgina en una finestra nova."
 
-#: web/skins/modern/user/js/cat_js.php:292
+#: web/skins/modern/user/js/cat_js.php:293
 msgid "Close"
 msgstr "Tanca"
 
-#: web/skins/modern/user/js/cat_js.php:389
+#: web/skins/modern/user/js/cat_js.php:390
 msgid "Missing email address"
 msgstr "Manca l'adreça de correu"
 
-#: web/skins/modern/user/js/cat_js.php:403
+#: web/skins/modern/user/js/cat_js.php:404
 msgid "No providers found for this email"
 msgstr "No s'ha trobat proveïdors per a aquest correu"
 
-#: web/skins/modern/user/js/cat_js.php:408
+#: web/skins/modern/user/js/cat_js.php:409
 msgid "Your IdP is:"
 msgstr "El vostre IdP és:"
 
-#: web/skins/modern/user/js/cat_js.php:410
+#: web/skins/modern/user/js/cat_js.php:411
 msgid "Your IdP could be one of:"
 msgstr "El vostre IdP pot ser un dels següents:"
 
-#: web/skins/modern/user/js/cat_js.php:574
+#: web/skins/modern/user/js/cat_js.php:575
 msgid "Organisation"
 msgstr "Organització"
 
-#: web/skins/modern/user/js/cat_js.php:575
+#: web/skins/modern/user/js/cat_js.php:576
 msgid "Select your organisation"
 msgstr "Escolliu la vostra organització"
 
-#: web/skins/modern/user/js/cat_js.php:576
+#: web/skins/modern/user/js/cat_js.php:577
 msgid "Help, my organisation is not on the list"
 msgstr "Ajudeu-me, la meva organització no és a la llista"
 
-#: web/skins/modern/user/js/cat_js.php:577
+#: web/skins/modern/user/js/cat_js.php:578
 #, php-format
 msgid ""
 "This system relies on information supplied by local %s administrators. If "
@@ -1086,63 +1112,63 @@ msgstr ""
 "locals de %s. Si la vostra organització no es troba a la llista, insistiu-"
 "els-hi per a que afegeixin aquesta informació a la base de dades de %s ."
 
-#: web/skins/modern/user/js/cat_js.php:578
+#: web/skins/modern/user/js/cat_js.php:579
 msgid "Locate me more accurately using HTML5 Geo-Location"
 msgstr "Localitzeu-me amb més precissió utilitzant la geolocalització HTML5 "
 
-#: web/skins/modern/user/js/cat_js.php:579
+#: web/skins/modern/user/js/cat_js.php:580
 msgid "Show organisations in"
 msgstr "Mostrar les organitzacions a "
 
-#: web/skins/modern/user/js/cat_js.php:580
+#: web/skins/modern/user/js/cat_js.php:581
 msgid "all countries"
 msgstr "tots els paisos"
 
-#: web/skins/modern/user/js/cat_js.php:581
+#: web/skins/modern/user/js/cat_js.php:582
 msgid "or search for an organisation, for example University of Oslo"
 msgstr "o cercar una organització, per exemple la Universitat d'Oslo"
 
-#: web/skins/modern/user/js/cat_js.php:582
+#: web/skins/modern/user/js/cat_js.php:583
 msgid "show all countries"
 msgstr "Mostrar tots els països"
 
-#: web/skins/modern/user/js/cat_js.php:583
+#: web/skins/modern/user/js/cat_js.php:584
 msgid "Results limited to"
 msgstr "Resultats limitats a"
 
-#: web/skins/modern/user/js/cat_js.php:584
+#: web/skins/modern/user/js/cat_js.php:585
 msgid "entries - show more"
 msgstr "entrades - Mostrar-ne més"
 
-#: web/skins/modern/user/js/cat_js.php:585
+#: web/skins/modern/user/js/cat_js.php:586
 msgid "Nearby"
 msgstr "Proper"
 
-#: web/skins/modern/user/js/cat_js.php:586
+#: web/skins/modern/user/js/cat_js.php:587
 msgid "Location timeout"
 msgstr "Temps d'espera esgotat"
 
-#: web/skins/modern/user/js/cat_js.php:587
+#: web/skins/modern/user/js/cat_js.php:588
 msgid "Could not get your position"
 msgstr "No podem obtenir la vostra posició"
 
-#: web/skins/modern/user/js/cat_js.php:588
-msgid "Your browser has denied access to your location"
-msgstr "El vostre navegador ha denegat l'accés a la vostra localització"
-
 #: web/skins/modern/user/js/cat_js.php:589
-msgid "Unknown location error"
-msgstr "Error de localització desconegut"
+msgid "Your browser has denied access to your location"
+msgstr "El vostre navegador ha denegat l'accés a la vostra geolocalització"
 
 #: web/skins/modern/user/js/cat_js.php:590
+msgid "Unknown location error"
+msgstr "Error de geolocalització desconegut"
+
+#: web/skins/modern/user/js/cat_js.php:591
 msgid "You are here:"
 msgstr "Us trobeu aquí:"
 
-#: web/skins/modern/user/js/cat_js.php:591
-msgid "Getting your location..."
-msgstr "Obtenint la vostra localització..."
-
 #: web/skins/modern/user/js/cat_js.php:592
+msgid "Getting your location..."
+msgstr "S'està obtenint la vostra geolocalització..."
+
+#: web/skins/modern/user/js/cat_js.php:593
 msgid "Nearby providers shown on top."
 msgstr "Els proveidors més propers es mostren al capdamunt."
 

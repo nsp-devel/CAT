@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Contributions to this work were made on behalf of the GÉANT project, a 
  * project that has received funding from the European Union’s Horizon 2020 
@@ -104,18 +105,20 @@ class ProfileSilverbullet extends AbstractProfile {
             "profile:production" => "on",
         ];
 
-// and we need to populate eap:server_name and eap:ca_file with the NRO-specific EAP information
+        // and we need to populate eap:server_name and eap:ca_file with the NRO-specific EAP information
         $silverbulletAttributes = [
             "eap:server_name" => "auth." . strtolower($myFed->tld) . CONFIG_CONFASSISTANT['SILVERBULLET']['server_suffix'],
         ];
+        $temp = array_merge($this->addInternalAttributes($internalAttributes), $this->addInternalAttributes($silverbulletAttributes));
         $x509 = new \core\common\X509();
         $caHandle = fopen(dirname(__FILE__) . "/../config/SilverbulletServerCerts/" . strtoupper($myFed->tld) . "/root.pem", "r");
         if ($caHandle !== FALSE) {
             $cAFile = fread($caHandle, 16000000);
-            $silverbulletAttributes["eap:ca_file"] = $x509->der2pem(($x509->pem2der($cAFile)));
+            foreach ($x509->splitCertificate($cAFile) as $oneCa) {
+                $temp = array_merge($temp, $this->addInternalAttributes(['eap:ca_file' => $oneCa]));
+            }
         }
 
-        $temp = array_merge($this->addInternalAttributes($internalAttributes), $this->addInternalAttributes($silverbulletAttributes));
         $tempArrayProfLevel = array_merge($this->addDatabaseAttributes(), $temp);
 
 // now, fetch and merge IdP-wide attributes
@@ -156,7 +159,7 @@ class ProfileSilverbullet extends AbstractProfile {
             <li>If you choose to deposit users' email addresses in the system, you authorise the system to send emails on your behalf regarding operationally relevant events to the users in question (e.g. notification of nearing expiry dates of credentials, notification of access revocation).
         </ul>";
     }
-    
+
     /**
      * Updates database with new installer location; NOOP because we do not
      * cache anything in Silverbullet
@@ -207,7 +210,7 @@ class ProfileSilverbullet extends AbstractProfile {
 
     /**
      * find out about the status of a given SB user; retrieves the info regarding all his tokens (and thus all his certificates)
-     * @param int $userId
+     * @param int $userId the userid
      * @return array of invitationObjects
      */
     public function userStatus($userId) {
@@ -232,7 +235,42 @@ class ProfileSilverbullet extends AbstractProfile {
             return $returnedData->expiry;
         }
     }
-    
+
+    /**
+     * retrieves the authentication records from the RADIUS servers 
+     * 
+     * @param int $userId the numerical user ID of the user in question
+     * @return array
+     */
+    public function getUserAuthRecords($userId) {
+        // find out all certificate CNs belonging to the user, including expired and revoked ones
+        $userData = $this->userStatus($userId);
+        $certNames = [];
+        foreach ($userData as $oneSlice) {
+            foreach ($oneSlice->associatedCertificates as $oneCert) {
+                $certNames[] = $oneCert->username;
+            }
+        }
+        if (empty($certNames)) {
+            return [];
+        }
+        $namesCondensed = "'" . implode("' OR username = '", $certNames) . "'";
+        $serverHandles = DBConnection::handle("RADIUS");
+        $returnarray = [];
+        foreach ($serverHandles as $oneDbServer) {
+            $query = $oneDbServer->exec("SELECT username, authdate, reply, callingid, operatorname FROM eduroamauth WHERE $namesCondensed ORDER BY authdate DESC");
+            // SELECT -> resource, not boolean
+            while ($returnedData = mysqli_fetch_object(/** @scrutinizer ignore-type */ $query)) {
+                $returnarray[] = ["CN" => $returnedData->username, "TIMESTAMP" => $returnedData->authdate, "RESULT" => $returnedData->reply, "MAC" => $returnedData->callingid, "OPERATOR" => $returnedData->operatorname];
+            }
+        }
+        usort($returnarray, function($one, $another) {
+            return $one['TIMESTAMP'] < $another['TIMESTAMP'];
+        });
+
+        return $returnarray;
+    }
+
     /**
      * sets the expiry date of a user to a new date of choice
      * @param int       $userId the username
@@ -260,6 +298,34 @@ class ProfileSilverbullet extends AbstractProfile {
     }
 
     /**
+     * get the user of this SB profile identified by ID
+     * @param int $userId the user id
+     * @return array
+     */
+    public function getUserById($userId) {
+        $users = $this->databaseHandle->exec("SELECT `id`, `username` FROM `silverbullet_user` WHERE `profile_id` = ? AND `id` = ? ", "ii", $this->identifier, $userId);
+        // SELECT -> resource, not boolean
+        while ($res = mysqli_fetch_object(/** @scrutinizer ignore-type */ $users)) {
+            return [$res->id => $res->username];
+        }
+        return [];
+    }
+
+    /**
+     * get the user of this SB profile identified by Username
+     * @param string $userName the username
+     * @return array
+     */
+    public function getUserByName($userName) {
+        $users = $this->databaseHandle->exec("SELECT `id`, `username` FROM `silverbullet_user` WHERE `profile_id` = ? AND `username` = ? ", "is", $this->identifier, $userName);
+        // SELECT -> resource, not boolean
+        while ($res = mysqli_fetch_object(/** @scrutinizer ignore-type */ $users)) {
+            return [$res->id => $res->username];
+        }
+        return [];
+    }
+
+    /**
      * lists all users which are currently active (i.e. have pending invitations and/or valid certs)
      * @return array
      */
@@ -275,7 +341,7 @@ class ProfileSilverbullet extends AbstractProfile {
                 . ")", "i", $this->identifier);
         // SELECT -> resource, not boolean
         while ($res = mysqli_fetch_object(/** @scrutinizer ignore-type */ $users)) {
-            $userCount[] = $res->usercount;
+            $userCount[$res->usercount] = "ACTIVE";
         }
         return $userCount;
     }
@@ -328,12 +394,33 @@ class ProfileSilverbullet extends AbstractProfile {
         $ret = $this->databaseHandle->exec($query3, "i", $userId);
         // this is an UPDATE, and always returns TRUE. Need to tell Scrutinizer all about it.
         if ($ret === TRUE) {
-        return TRUE;
+            return TRUE;
         } else {
             throw new Exception("The UPDATE statement could not be executed successfully.");
         }
     }
-    
+
+    /**
+     * delete the user in question, including all expired and revoked certificates
+     * @param int $userId the username
+     * @return boolean was the user deleted?
+     */
+    public function deleteUser($userId) {
+        // do we really not have any auth records that may need to be tied to this user?
+        if (count($this->getUserAuthRecords($userId)) > 0) {
+            return false;
+        }
+        // find and delete all certificates
+        $certQuery = "DELETE FROM silverbullet_certificate WHERE profile_id = $this->identifier AND silverbullet_user_id = ?";
+        $this->databaseHandle->exec($certQuery, "i", $userId);
+        // find and delete obsolete invitation token track record
+        $tokenQuery = "DELETE FROM silverbullet_invitation WHERE profile_id = $this->identifier AND silverbullet_user_id = ?";
+        $this->databaseHandle->exec($tokenQuery, "i", $userId);
+        // delete user record itself
+        $userQuery = "DELETE FROM silverbullet_user WHERE profile_id = $this->identifier AND id = ?";
+        $this->databaseHandle->exec($userQuery, "i", $userId);
+    }
+
     /**
      * updates the last_ack for all users (invoked when the admin claims to have re-verified continued eligibility of all users)
      * 
@@ -343,4 +430,5 @@ class ProfileSilverbullet extends AbstractProfile {
         $query = "UPDATE silverbullet_user SET last_ack = NOW() WHERE profile_id = ?";
         $this->databaseHandle->exec($query, "i", $this->identifier);
     }
+
 }

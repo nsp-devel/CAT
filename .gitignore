@@ -13,3 +13,6 @@
 /devices/ms/Files/WLANSetEAPUserData/WLANSetEAPUserData-master/
 /build/
 /devices/Devices.php
+/vendor/
+/feddetails.json
+/fed.output

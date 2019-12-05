@@ -1,4 +1,5 @@
 <?php
+
 /*
  * *****************************************************************************
  * Contributions to this work were made on behalf of the GÉANT project, a 
@@ -27,6 +28,7 @@
  */
 
 namespace devices\ms;
+
 use \Exception;
 
 /**
@@ -35,9 +37,17 @@ use \Exception;
  *
  * @package ModuleWriting
  */
-abstract class WindowsCommon extends \core\DeviceConfig {
+abstract class WindowsCommon extends \core\DeviceConfig
+{
 
-    public function copyBasicFiles() {
+    /**
+     * copies various common files into temp dir for inclusion into installers
+     * 
+     * @return void
+     * @throws Exception
+     */
+    public function copyBasicFiles()
+    {
         if (!($this->copyFile('wlan_test.exe') &&
                 $this->copyFile('check_wired.cmd') &&
                 $this->copyFile('install_wired.cmd') &&
@@ -58,7 +68,116 @@ abstract class WindowsCommon extends \core\DeviceConfig {
         return;
     }
 
-    public function copyPwdFiles() {
+    /**
+     *  Copy a file from the module location to the temporary directory aplying transcoding.
+     *
+     * Transcoding is only required for Windows installers, and no Unicode support
+     * in NSIS (NSIS version below 3)
+     * Trancoding is only applied if the third optional parameter is set and nonzero
+     * If CONFIG['NSIS']_VERSION is set to 3 or more, no transcoding will be applied
+     * regardless of the third parameter value.
+     * If the second argument is provided and is not equal to 0, then the file will be
+     * saved under the name taken from this argument.
+     * If only one parameter is given or the second is equal to 0, source and destination
+     * filenames are the same.
+     * The third optional parameter, if nonzero, should be the character set understood by iconv
+     * This is required by the Windows installer and is expected to go away in the future.
+     * Source file can be located either in the Files subdirectory or in the sibdirectory of Files
+     * named the same as device_id. The second option takes precedence.
+     *
+     * @param string $source_name The source file name
+     * @param string $output_name The destination file name
+     * @param int    $encoding    Set Windows charset if non-zero
+     * @return boolean
+     * @final not to be redefined
+     */
+    final protected function translateFile($source_name, $output_name = NULL, $encoding = 0)
+    {
+        // there is no explicit gettext() call in this function, but catalogues
+        // and translations occur in the varios ".inc" files - so make sure we
+        // operate in the correct catalogue
+        \core\common\Entity::intoThePotatoes();
+        if (CONFIG_CONFASSISTANT['NSIS_VERSION'] >= 3) {
+            $encoding = 0;
+        }
+        if ($output_name === NULL) {
+            $output_name = $source_name;
+        }
+
+        $this->loggerInstance->debug(5, "translateFile($source_name, $output_name, $encoding)\n");
+        ob_start();
+        $this->loggerInstance->debug(5, $this->module_path . '/Files/' . $this->device_id . '/' . $source_name . "\n");
+        $source = $this->findSourceFile($source_name);
+
+        if ($source !== FALSE) { // if there is no file found, don't attempt to include an uninitialised variable
+            include $source;
+        }
+        $output = ob_get_clean();
+        if ($encoding) {
+            $outputClean = iconv('UTF-8', $encoding . '//TRANSLIT', $output);
+            if ($outputClean) {
+                $output = $outputClean;
+            }
+        }
+        $fileHandle = fopen("$output_name", "w");
+        if ($fileHandle === FALSE) {
+            $this->loggerInstance->debug(2, "translateFile($source, $output_name, $encoding) failed\n");
+            \core\common\Entity::outOfThePotatoes();
+            return FALSE;
+        }
+        fwrite($fileHandle, $output);
+        fclose($fileHandle);
+        $this->loggerInstance->debug(5, "translateFile($source, $output_name, $encoding) end\n");
+        \core\common\Entity::outOfThePotatoes();
+        return TRUE;
+    }
+
+    /**
+     * Transcode a string adding double quotes escaping
+     *
+     * Transcoding is only required for Windows installers, and no Unicode support
+     * in NSIS (NSIS version below 3)
+     * Trancoding is only applied if the third optional parameter is set and nonzero
+     * If CONFIG['NSIS']_VERSION is set to 3 or more, no transcoding will be applied
+     * regardless of the second parameter value.
+     * The second optional parameter, if nonzero, should be the character set understood by iconv
+     * This is required by the Windows installer and is expected to go away in the future.
+     *
+     * @param string $source_string The source string
+     * @param int    $encoding      Set Windows charset if non-zero
+     * @return string
+     * @final not to be redefined
+     */
+    final protected function translateString($source_string, $encoding = 0)
+    {
+        $this->loggerInstance->debug(5, "translateString input: \"$source_string\"\n");
+        if (empty($source_string)) {
+            return $source_string;
+        }
+        if (CONFIG_CONFASSISTANT['NSIS_VERSION'] >= 3) {
+            $encoding = 0;
+        }
+        if ($encoding) {
+            $output_c = iconv('UTF-8', $encoding . '//TRANSLIT', $source_string);
+        } else {
+            $output_c = $source_string;
+        }
+        if ($output_c) {
+            $source_string = str_replace('"', '$\\"', $output_c);
+        } else {
+            $this->loggerInstance->debug(2, "Failed to convert string \"$source_string\"\n");
+        }
+        return $source_string;
+    }
+
+    /**
+     * copies files relevant for EAP-pwd into installer temp directory for later inclusion into installers
+     * 
+     * @return void
+     * @throws Exception
+     */
+    public function copyPwdFiles()
+    {
         if (!($this->copyFile('Aruba_Networks_EAP-pwd_x32.msi') &&
                 $this->copyFile('Aruba_Networks_EAP-pwd_x64.msi'))) {
             throw new Exception("Copying needed files (EAP-pwd) failed for at least one file!");
@@ -68,7 +187,14 @@ abstract class WindowsCommon extends \core\DeviceConfig {
         }
     }
 
-    public function copyGeantLinkFiles() {
+    /**
+     * copies GEANTlink files into temp dir for later inclusion into installers
+     * 
+     * @return void
+     * @throws Exception
+     */
+    public function copyGeantLinkFiles()
+    {
         if (!($this->copyFile('GEANTLink/GEANTLink-x86.msi', 'GEANTLink-x86.msi') &&
                 $this->copyFile('GEANTLink/GEANTLink-x64.msi', 'GEANTLink-x64.msi') &&
                 $this->copyFile('GEANTLink/GEANTLink-ARM64.msi', 'GEANTLink-ARM64.msi') &&
@@ -81,14 +207,14 @@ abstract class WindowsCommon extends \core\DeviceConfig {
         }
     }
 
-
     /**
      * function to escape double quotes in a special NSI-compatible way
      * 
      * @param string $in input string
      * @return string
      */
-    public static function echo_nsi($in) {
+    public static function echo_nsi($in)
+    {
         echo preg_replace('/"/', '$\"', $in);
     }
 
@@ -96,16 +222,18 @@ abstract class WindowsCommon extends \core\DeviceConfig {
      * @param string $input input string
      * @return string
      */
-    public static function sprint_nsi($input) {
+    public static function sprint_nsi($input)
+    {
         return preg_replace('/"/', '$\"', $input);
     }
 
-    public function __construct() {
-        parent::__construct();
-        $this->useGeantLink = (isset($this->options['args']) && $this->options['args'] == 'gl') ? 1 : 0;
-    }
-
-    protected function prepareInstallerLang() {
+    /**
+     * determine Windows codepage and language settings based on requested installer language
+     * 
+     * @return void
+     */
+    protected function prepareInstallerLang()
+    {
         if (isset($this->LANGS[$this->languageInstance->getLang()])) {
             $language = $this->LANGS[$this->languageInstance->getLang()];
             $this->lang = $language['nsis'];
@@ -116,25 +244,29 @@ abstract class WindowsCommon extends \core\DeviceConfig {
         }
     }
 
-    public function writeDeviceInfo() {
-        $ssids = $this->getAttribute('internal:SSID');
+    /**
+     * creates HTML code which will be displayed when the "info" button is pressed
+     * 
+     * @return string the HTML code
+     */
+    public function writeDeviceInfo()
+    {
+        $ssids = $this->getAttribute('internal:SSID') ?? [];
         $ssidCount = count($ssids);
+        $configList = CONFIG_CONFASSISTANT['CONSORTIUM']['ssid'] ?? [];
+        $configCount = count($configList);
         $out = "<p>";
         $out .= sprintf(_("%s installer will be in the form of an EXE file. It will configure %s on your device, by creating wireless network profiles.<p>When you click the download button, the installer will be saved by your browser. Copy it to the machine you want to configure and execute."), CONFIG_CONFASSISTANT['CONSORTIUM']['display_name'], CONFIG_CONFASSISTANT['CONSORTIUM']['display_name']);
         $out .= "<p>";
-        if ($ssidCount > 1) {
-            if ($ssidCount > 2) {
-                $out .= sprintf(_("In addition to <strong>%s</strong> the installer will also configure access to the following networks:"), implode(', ', CONFIG_CONFASSISTANT['CONSORTIUM']['ssid'])) . " ";
-            } else {
-                $out .= sprintf(_("In addition to <strong>%s</strong> the installer will also configure access to:"), implode(', ', CONFIG_CONFASSISTANT['CONSORTIUM']['ssid'])) . " ";
-            }
-            $out .= '<strong>' . join('</strong>, <strong>', array_diff(array_keys($ssids), CONFIG_CONFASSISTANT['CONSORTIUM']['ssid'])) . '</strong>';
+        if ($ssidCount > $configCount) {
+            $out .= sprintf(ngettext("In addition to <strong>%s</strong> the installer will also configure access to:", "In addition to <strong>%s</strong> the installer will also configure access to the following networks:", $ssidCount - $configCount), implode(', ', $configList)) . " ";
+            $out .= '<strong>' . join('</strong>, <strong>', array_diff(array_keys($ssids), $configList)) . '</strong>';
             $out .= "<p>";
         }
 // TODO - change this below
         if ($this->selectedEapObject->isClientCertRequired()) {
             $out .= _("In order to connect to the network you will need an a personal certificate in the form of a p12 file. You should obtain this certificate from your organisation. Consult the support page to find out how this certificate can be obtained. Such certificate files are password protected. You should have both the file and the password available during the installation process.");
-            return($out);
+            return $out;
         }
         // not EAP-TLS
         $out .= _("In order to connect to the network you will need an account from your organisation. You should consult the support page to find out how this account can be obtained. It is very likely that your account is already activated.");
@@ -148,11 +280,24 @@ abstract class WindowsCommon extends \core\DeviceConfig {
                 $out .= '<strong>' . join('</strong>, <strong>', array_keys($ssids)) . '</strong>';
             }
         }
-        return($out);
-    }    
-    
-    private function scaleLogo($imagePath, $maxSize) {
-        $imageObject = new \Imagick($imagePath);
+        return $out;
+    }
+
+    /**
+     * scales a logo to the desired size
+     * @param string $imagePath path to the image
+     * @param int    $maxSize   maximum size of output image (larger axis counts)
+     * @return \Imagick|\GMagick *Magick image object
+     */
+    private function scaleLogo($imagePath, $maxSize)
+    {
+        // on CentOS and RHEL 8, look for Gmagick, else Imagick
+        if (strpos(php_uname("r"), "el8") !== FALSE) {
+            $imageObject = new \Gmagick($imagePath);
+        } else {
+            $imageObject = new \Imagick($imagePath);
+        }
+
         $imageSize = $imageObject->getImageGeometry();
         $imageMax = max($imageSize);
         $this->loggerInstance->debug(5, "Logo size: ");
@@ -171,18 +316,32 @@ abstract class WindowsCommon extends \core\DeviceConfig {
         return($imageObject);
     }
 
-    protected function combineLogo($logos = NULL, $fedLogo = NULL) {
+    /**
+     * combines the inst and federation logo into one image and writes to file
+     * 
+     * @param array $logos   inst logo meta info
+     * @param array $fedLogo fed logo meta info
+     * @return void
+     */
+    protected function combineLogo($logos = NULL, $fedLogo = NULL)
+    {
         // maximum size to which we want to resize the logos
-        
+
         $maxSize = 120;
         // $freeTop is set to how much vertical space we need to leave at the top
         // this will depend on the design of the background
         $freeTop = 70;
         // $freeBottom is set to how much vertical space we need to leave at the bottom
         // this will depend on the design of the background
+        // we are prefixig the paths with getcwd() wich migh appear unnecessary
+        // but under some conditions appeared to be required
         $freeBottom = 30;
-        
-        $bgImage = new \Imagick('cat_bg.bmp');
+// on CentOS and RHEL 8, look for Gmagick, else Imagick
+        if (strpos(php_uname("r"), "el8") !== FALSE) {
+            $bgImage = new \Gmagick(getcwd().'/cat_bg.bmp');
+        } else {
+            $bgImage = new \Imagick(getcwd().'/cat_bg.bmp');
+        }
         $bgImage->setFormat('BMP3');
         $bgImageSize = $bgImage->getImageGeometry();
         $logosToPlace = [];
@@ -193,29 +352,35 @@ abstract class WindowsCommon extends \core\DeviceConfig {
             $fedLogo = NULL;
         }
         if ($fedLogo != NULL) {
-            $logosToPlace[] = $this->scaleLogo($fedLogo[0]['name'], $maxSize);
+            $logosToPlace[] = $this->scaleLogo(getcwd()."/".$fedLogo[0]['name'], $maxSize);
         }
         if ($logos != NULL) {
-            $logosToPlace[] = $this->scaleLogo($logos[0]['name'], $maxSize);
+            $logosToPlace[] = $this->scaleLogo(getcwd()."/".$logos[0]['name'], $maxSize);
         }
 
         $logoCount = count($logosToPlace);
         if ($logoCount > 0) {
             $voffset = $freeTop;
-            $freeSpace = (int)round($this->background['freeHeight'] / ($logoCount + 1));
+            $freeSpace = (int) round($this->background['freeHeight'] / ($logoCount + 1));
             foreach ($logosToPlace as $logo) {
                 $voffset += $freeSpace;
                 $logoSize = $logo->getImageGeometry();
-                $hoffset = (int)round(($bgImageSize['width'] - $logoSize['width']) / 2);
+                $hoffset = (int) round(($bgImageSize['width'] - $logoSize['width']) / 2);
                 $bgImage->compositeImage($logo, $logo->getImageCompose(), $hoffset, $voffset);
                 $voffset += $logoSize['height'];
-                }
+            }
         }
 //new image is saved as the background
-        $bgImage->writeImage('BMP3:cat_bg.bmp');
+        $bgImage->writeImage('BMP3:'.getcwd().'/cat_bg.bmp');
     }
 
-    protected function signInstaller() {
+    /**
+     * adds a digital signature to the installer, and returns path to file
+     * 
+     * @return string path to signed installer
+     */
+    protected function signInstaller()
+    {
         $fileName = $this->installerBasename . '.exe';
         if (!$this->sign) {
             rename("installer.exe", $fileName);
@@ -229,7 +394,13 @@ abstract class WindowsCommon extends \core\DeviceConfig {
         return $fileName;
     }
 
-    protected function compileNSIS() {
+    /**
+     * creates one single installer .exe out of the NSH inputs and other files
+     * 
+     * @return void
+     */
+    protected function compileNSIS()
+    {
         if (CONFIG_CONFASSISTANT['NSIS_VERSION'] >= 3) {
             $makensis = CONFIG_CONFASSISTANT['PATHS']['makensis'] . " -INPUTCHARSET UTF8";
         } else {
@@ -243,25 +414,39 @@ abstract class WindowsCommon extends \core\DeviceConfig {
         $this->loggerInstance->debug(4, "compileNSIS:$command\n");
     }
 
-    private function getSupport($attr, $type) {
+    /**
+     * find out where the user can get support
+     * 
+     * @param array  $attr list of profile attributes
+     * @param string $type which type of support resource to we want
+     * @return string NSH line with the resulting !define
+     */
+    private function getSupport($attr, $type)
+    {
         $supportString = [
             'email' => 'SUPPORT',
             'url' => 'URL',
         ];
         $s = "support_" . $type . "_substitute";
         $substitute = $this->translateString($this->$s, $this->codePage);
-        $returnValue = !empty($attr['support:' . $type][0]) ? $attr['support:' .  $type][0] : $substitute;
-        return('!define ' . $supportString[$type] . ' "' . $returnValue . '"' . "\n");
+        $returnValue = !empty($attr['support:' . $type][0]) ? $attr['support:' . $type][0] : $substitute;
+        return '!define ' . $supportString[$type] . ' "' . $returnValue . '"' . "\n";
     }
-    
-    
-    protected function writeNsisDefines($attr) {
+
+    /**
+     * returns various NSH !define statements for later inclusion into master file
+     * 
+     * @param array $attr profile attributes
+     * @return string
+     */
+    protected function writeNsisDefines($attr)
+    {
         $fcontents = "\n" . '!define NSIS_MAJOR_VERSION ' . CONFIG_CONFASSISTANT['NSIS_VERSION'];
         if ($attr['internal:profile_count'][0] > 1) {
             $fcontents .= "\n" . '!define USER_GROUP "' . $this->translateString(str_replace('"', '$\\"', $attr['profile:name'][0]), $this->codePage) . '"
 ';
         }
-        $fcontents .=  '
+        $fcontents .= '
 Caption "' . $this->translateString(sprintf(WindowsCommon::sprint_nsi(_("%s installer for %s")), CONFIG_CONFASSISTANT['CONSORTIUM']['display_name'], $attr['general:instname'][0]), $this->codePage) . '"
 !define APPLICATION "' . $this->translateString(sprintf(WindowsCommon::sprint_nsi(_("%s installer for %s")), CONFIG_CONFASSISTANT['CONSORTIUM']['display_name'], $attr['general:instname'][0]), $this->codePage) . '"
 !define VERSION "' . \core\CAT::VERSION_MAJOR . '.' . \core\CAT::VERSION_MINOR . '"
@@ -272,7 +457,7 @@ Caption "' . $this->translateString(sprintf(WindowsCommon::sprint_nsi(_("%s inst
 !define ORGANISATION "' . $this->translateString($attr['general:instname'][0], $this->codePage) . '"
 ';
         $fcontents .= $this->getSupport($attr, 'email');
-        $fcontents .= $this->getSupport($attr, 'url');                
+        $fcontents .= $this->getSupport($attr, 'url');
         if (\core\common\Entity::getAttributeValue($attr, 'media:wired', 0) == 'on') {
             $fcontents .= '!define WIRED
         ';
@@ -283,20 +468,27 @@ Caption "' . $this->translateString(sprintf(WindowsCommon::sprint_nsi(_("%s inst
             $fcontents .= '!define REALM "' . $attr['internal:realm'][0] . '"
 ';
         }
-        if(!empty($attr['internal:hint_userinput_suffix'][0]) && $attr['internal:hint_userinput_suffix'][0] == 1) {
+        if (!empty($attr['internal:hint_userinput_suffix'][0]) && $attr['internal:hint_userinput_suffix'][0] == 1) {
             $fcontents .= '!define HINT_USER_INPUT "' . $attr['internal:hint_userinput_suffix'][0] . '"
 ';
         }
-        if(!empty($attr['internal:verify_userinput_suffix'][0]) && $attr['internal:verify_userinput_suffix'][0] == 1) {
+        if (!empty($attr['internal:verify_userinput_suffix'][0]) && $attr['internal:verify_userinput_suffix'][0] == 1) {
             $fcontents .= '!define VERIFY_USER_REALM_INPUT "' . $attr['internal:verify_userinput_suffix'][0] . '"
 ';
         }
         $fcontents .= $this->msInfoFile($attr);
-        return($fcontents);
-           
+        return $fcontents;
     }
-    
-    protected function msInfoFile($attr) {
+
+    /**
+     * includes NSH commands displaying terms of use file into installer, if any
+     * 
+     * @param array $attr profile attributes
+     * @return string NSH commands
+     * @throws Exception
+     */
+    protected function msInfoFile($attr)
+    {
         $out = '';
         if (isset($attr['support:info_file'])) {
             $out .= '!define EXTERNAL_INFO "';
@@ -327,7 +519,15 @@ Caption "' . $this->translateString(sprintf(WindowsCommon::sprint_nsi(_("%s inst
         return $out;
     }
 
-    protected function writeAdditionalDeletes($profiles) {
+    /**
+     * writes commands to delete SSIDs, if any, into a file
+     * 
+     * @param array $profiles WLAN profiles to delete
+     * @return void
+     * @throws Exception
+     */
+    protected function writeAdditionalDeletes($profiles)
+    {
         if (count($profiles) == 0) {
             return;
         }
@@ -342,14 +542,27 @@ Caption "' . $this->translateString(sprintf(WindowsCommon::sprint_nsi(_("%s inst
         fclose($fileHandle);
     }
 
-    protected function writeClientP12File() {
+    /**
+     * writes client certificate into file
+     * 
+     * @return void
+     * @throws Exception
+     */
+    protected function writeClientP12File()
+    {
         if (!is_array($this->clientCert)) {
             throw new Exception("the client block was called but there is no client certificate!");
         }
         file_put_contents('SB_cert.p12', $this->clientCert["certdata"]);
     }
 
-    protected function writeTlsUserProfile() {
+    /**
+     * nothing special to be done here
+     * 
+     * @return void
+     */
+    protected function writeTlsUserProfile()
+    {
         
     }
 
@@ -401,7 +614,7 @@ Caption "' . $this->translateString(sprintf(WindowsCommon::sprint_nsi(_("%s inst
     ];
     public $codePage;
     public $lang;
-    public $useGeantLink;
+    public $useGeantLink = FALSE;
     private $background;
 
 }

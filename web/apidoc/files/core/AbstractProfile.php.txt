@@ -60,7 +60,7 @@ abstract class AbstractProfile extends EntityWithDBProperties {
     
     /**
      * DB identifier of the parent institution of this profile
-     * @var int
+     * @var integer
      */
     public $institution;
 
@@ -88,7 +88,7 @@ abstract class AbstractProfile extends EntityWithDBProperties {
     /**
      * number of profiles of the IdP this profile is attached to
      * 
-     * @var int
+     * @var integer
      */
     protected $idpNumberOfProfiles;
 
@@ -186,7 +186,7 @@ abstract class AbstractProfile extends EntityWithDBProperties {
             $idp = new IdP($this->institution);
         } else {
             $idp = $idpObject;
-            $this->institution = (int) $idp->identifier;
+            $this->institution = $idp->identifier;
         }
 
         $this->instName = $idp->name;

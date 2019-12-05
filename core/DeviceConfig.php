@@ -1,4 +1,5 @@
 <?php
+
 /*
  * *****************************************************************************
  * Contributions to this work were made on behalf of the GÉANT project, a 
@@ -75,18 +76,6 @@ abstract class DeviceConfig extends \core\common\Entity {
     public $supportedEapMethods;
 
     /**
-     * the custom displayable variant of the term 'federation'
-     * @var string
-     */
-    public $nomenclature_fed;
-    
-    /**
-     * the custom displayable variant of the term 'institution'
-     * @var string
-     */
-    public $nomenclature_inst;
-    
-    /**
      * sets the supported EAP methods for a device
      * 
      * @param array $eapArray the list of EAP methods the device supports
@@ -105,22 +94,48 @@ abstract class DeviceConfig extends \core\common\Entity {
      */
     public function __construct() {
         parent::__construct();
-        // some config elements are displayable. We need some dummies to 
-        // translate the common values for them. If a deployment chooses a 
-        // different wording, no translation, sorry
+    }
 
-        $dummy_NRO = _("National Roaming Operator");
-        $dummy_inst1 = _("identity provider");
-        $dummy_inst2 = _("organisation");
-        $dummy_inst3 = _("Identity Provider");
-        // and do something useless with the strings so that there's no "unused" complaint
-        // by Scrutinizer
-        if (strlen($dummy_NRO . $dummy_inst1 . $dummy_inst2 . $dummy_inst3) < 0) {
-            throw new \Exception("Strings are usually not shorter than 0 characters. We've encountered a string blackhole.");
+    /**
+     * given one or more server name strings, calculate the suffix that is common
+     * to all of them
+     * 
+     * Examples:
+     * 
+     * ["host.somewhere.com", "gost.somewhere.com"] => "ost.somewhere.com"
+     * ["my.server.name"] => "my.server.name"
+     * ["foo.bar.de", "baz.bar.ge"] => "e"
+     * ["server1.example.com", "server2.example.com", "serverN.example.com"] => ".example.com"
+
+     * @return string
+     */
+    public function longestNameSuffix() {
+        // for all configured server names, find the string that is the longest
+        // suffix to all of them
+        $longestSuffix = "";
+        if (!isset($this->attributes["eap:server_name"])) {
+            return "";
         }
-
-        $this->nomenclature_fed = _(CONFIG_CONFASSISTANT['CONSORTIUM']['nomenclature_federation']);
-        $this->nomenclature_inst = _(CONFIG_CONFASSISTANT['CONSORTIUM']['nomenclature_institution']);
+        $numStrings = count($this->attributes["eap:server_name"]);
+        if ($numStrings == 0) {
+            return "";
+        }
+        // always take the candidate character from the first array element, and
+        // verify whether the other elements have that character in the same 
+        // position, too
+        while (TRUE) {
+            if ($longestSuffix == $this->attributes["eap:server_name"][0]) {
+                break;
+            }
+            $candidate = substr($this->attributes["eap:server_name"][0], -(strlen($longestSuffix) + 1), 1);
+            for ($iterator = 1; $iterator < $numStrings; $iterator++) {
+                if (substr($this->attributes["eap:server_name"][$iterator], -(strlen($longestSuffix) + 1), 1) != $candidate) {
+                    break 2;
+                }
+            }
+            $longestSuffix = $candidate . $longestSuffix;
+        }
+        return $longestSuffix;
     }
 
     /**
@@ -146,6 +161,7 @@ abstract class DeviceConfig extends \core\common\Entity {
      */
     final public function setup(AbstractProfile $profile, $token = NULL, $importPassword = NULL) {
         $this->loggerInstance->debug(4, "module setup start\n");
+        common\Entity::intoThePotatoes();
         $purpose = 'installer';
         $eaps = $profile->getEapMethodsinOrderOfPreference(1);
         $this->calculatePreferredEapType($eaps);
@@ -192,13 +208,13 @@ abstract class DeviceConfig extends \core\common\Entity {
             }
             $this->attributes['internal:CAs'][0] = $caList;
         }
-        
+
         if (isset($this->attributes['support:info_file'])) {
             $this->attributes['internal:info_file'][0] = $this->saveInfoFile($this->attributes['support:info_file'][0]);
         }
         if (isset($this->attributes['general:logo_file'])) {
             $this->loggerInstance->debug(5, "saving IDP logo\n");
-            $this->attributes['internal:logo_file'] = $this->saveLogoFile($this->attributes['general:logo_file'],'idp');
+            $this->attributes['internal:logo_file'] = $this->saveLogoFile($this->attributes['general:logo_file'], 'idp');
         }
         if (isset($this->attributes['fed:logo_file'])) {
             $this->loggerInstance->debug(5, "saving FED logo\n");
@@ -209,15 +225,15 @@ abstract class DeviceConfig extends \core\common\Entity {
         $this->attributes['internal:remove_SSID'] = $this->getSSIDs()['del'];
 
         $this->attributes['internal:consortia'] = $this->getConsortia();
-        $olddomain = $this->languageInstance->setTextDomain("core");
+
         $this->support_email_substitute = sprintf(_("your local %s support"), CONFIG_CONFASSISTANT['CONSORTIUM']['display_name']);
         $this->support_url_substitute = sprintf(_("your local %s support page"), CONFIG_CONFASSISTANT['CONSORTIUM']['display_name']);
-        $this->languageInstance->setTextDomain($olddomain);
 
         if ($this->signer && $this->options['sign']) {
             $this->sign = ROOT . '/signer/' . $this->signer;
         }
         $this->installerBasename = $this->getInstallerBasename();
+        common\Entity::outOfThePotatoes();
     }
 
     /**
@@ -246,9 +262,12 @@ abstract class DeviceConfig extends \core\common\Entity {
      * @return string HTML text to be displayed
      */
     public function writeDeviceInfo() {
-        return _("Sorry, this should not happen - no additional information is available");
+        common\Entity::intoThePotatoes();
+        $retval = _("Sorry, this should not happen - no additional information is available");
+        common\Entity::outOfThePotatoes();
+        return $retval;
     }
-    
+
     /**
      * function to return exactly one attribute type
      * 
@@ -266,7 +285,7 @@ abstract class DeviceConfig extends \core\common\Entity {
      * @param  string $file the filename to search for (without path)
      * @return string|boolean the filename as found, with path, or FALSE if it does not exist
      */
-    private function findSourceFile($file) {
+    protected function findSourceFile($file) {
         if (is_file($this->module_path . '/Files/' . $this->device_id . '/' . $file)) {
             return $this->module_path . '/Files/' . $this->device_id . '/' . $file;
         } elseif (is_file($this->module_path . '/Files/' . $file)) {
@@ -310,100 +329,6 @@ abstract class DeviceConfig extends \core\common\Entity {
     }
 
     /**
-     *  Copy a file from the module location to the temporary directory aplying transcoding.
-     *
-     * Transcoding is only required for Windows installers, and no Unicode support
-     * in NSIS (NSIS version below 3)
-     * Trancoding is only applied if the third optional parameter is set and nonzero
-     * If CONFIG['NSIS']_VERSION is set to 3 or more, no transcoding will be applied
-     * regardless of the third parameter value.
-     * If the second argument is provided and is not equal to 0, then the file will be
-     * saved under the name taken from this argument.
-     * If only one parameter is given or the second is equal to 0, source and destination
-     * filenames are the same.
-     * The third optional parameter, if nonzero, should be the character set understood by iconv
-     * This is required by the Windows installer and is expected to go away in the future.
-     * Source file can be located either in the Files subdirectory or in the sibdirectory of Files
-     * named the same as device_id. The second option takes precedence.
-     *
-     * @param string $source_name The source file name
-     * @param string $output_name The destination file name
-     * @param int    $encoding    Set Windows charset if non-zero
-     * @return boolean
-     * @final not to be redefined
-     */
-    final protected function translateFile($source_name, $output_name = NULL, $encoding = 0) {
-        if (CONFIG_CONFASSISTANT['NSIS_VERSION'] >= 3) {
-            $encoding = 0;
-        }
-        if ($output_name === NULL) {
-            $output_name = $source_name;
-        }
-
-        $this->loggerInstance->debug(5, "translateFile($source_name, $output_name, $encoding)\n");
-        ob_start();
-        $this->loggerInstance->debug(5, $this->module_path . '/Files/' . $this->device_id . '/' . $source_name . "\n");
-        $source = $this->findSourceFile($source_name);
-        
-        if ($source !== FALSE) { // if there is no file found, don't attempt to include an uninitialised variable
-            include $source;
-        }
-        $output = ob_get_clean();
-        if ($encoding) {
-            $outputClean = iconv('UTF-8', $encoding . '//TRANSLIT', $output);
-            if ($outputClean) {
-                $output = $outputClean;
-            }
-        }
-        $fileHandle = fopen("$output_name", "w");
-        if ($fileHandle === FALSE) {
-            $this->loggerInstance->debug(2, "translateFile($source, $output_name, $encoding) failed\n");
-            return FALSE;
-        }
-        fwrite($fileHandle, $output);
-        fclose($fileHandle);
-        $this->loggerInstance->debug(5, "translateFile($source, $output_name, $encoding) end\n");
-        return TRUE;
-    }
-
-    /**
-     * Transcode a string adding double quotes escaping
-     *
-     * Transcoding is only required for Windows installers, and no Unicode support
-     * in NSIS (NSIS version below 3)
-     * Trancoding is only applied if the third optional parameter is set and nonzero
-     * If CONFIG['NSIS']_VERSION is set to 3 or more, no transcoding will be applied
-     * regardless of the second parameter value.
-     * The second optional parameter, if nonzero, should be the character set understood by iconv
-     * This is required by the Windows installer and is expected to go away in the future.
-     *
-     * @param string $source_string The source string
-     * @param int    $encoding      Set Windows charset if non-zero
-     * @return string
-     * @final not to be redefined
-     */
-    final protected function translateString($source_string, $encoding = 0) {
-        $this->loggerInstance->debug(5, "translateString input: \"$source_string\"\n");
-        if (empty($source_string)) {
-            return $source_string;
-        }
-        if (CONFIG_CONFASSISTANT['NSIS_VERSION'] >= 3) {
-            $encoding = 0;
-        }
-        if ($encoding) {
-            $output_c = iconv('UTF-8', $encoding . '//TRANSLIT', $source_string);
-        } else {
-            $output_c = $source_string;
-        }
-        if ($output_c) {
-            $source_string = str_replace('"', '$\\"', $output_c);
-        } else {
-            $this->loggerInstance->debug(2, "Failed to convert string \"$source_string\"\n");
-        }
-        return $source_string;
-    }
-
-    /**
      * Save certificate files in either DER or PEM format
      *
      * Certificate files will be saved in the module working directory.
@@ -415,7 +340,7 @@ abstract class DeviceConfig extends \core\common\Entity {
      * 
      * @param string $format only "der" and "pem" are currently allowed
      * @return array an array of arrays or empty array on error
-     
+
      */
     final protected function saveCertificateFiles($format) {
         switch ($format) {
@@ -454,6 +379,27 @@ abstract class DeviceConfig extends \core\common\Entity {
     }
 
     /**
+     * set of characters to remove from filename strings
+     */
+    private const TRANSLIT_SCRUB = '/[ ()\/\'"]+/';
+
+    /**
+     * Does a transliteration from UTF-8 to ASCII to get a sane filename
+     * Takes special characters into account, and always uses English CTYPE
+     * to avoid introduction of funny characters due to "flying accents"
+     * 
+     * @param string $input the input string that is to be transliterated
+     * @return string the transliterated string
+     */
+    private function customTranslit($input) {
+        $oldlocale = setlocale(LC_CTYPE, 0);
+        setlocale(LC_CTYPE, "en_US.UTF-8");
+        $retval = preg_replace(DeviceConfig::TRANSLIT_SCRUB, '_', iconv("UTF-8", "US-ASCII//TRANSLIT", $input));
+        setlocale(LC_CTYPE, $oldlocale);
+        return $retval;
+    }
+
+    /**
      * Generate installer filename base.
      * Device module should use this name adding an extension.
      * Normally the device identifier follows the Consortium name.
@@ -463,19 +409,19 @@ abstract class DeviceConfig extends \core\common\Entity {
      * @return string
      */
     private function getInstallerBasename() {
-        $replace_pattern = '/[ ()\/\'"]+/';
-        $consortiumName = iconv("UTF-8", "US-ASCII//TRANSLIT", preg_replace($replace_pattern, '_', CONFIG_CONFASSISTANT['CONSORTIUM']['name']));
-        if (isset($this->attributes['profile:customsuffix'][1])) { 
+
+        $baseName = $this->customTranslit(CONFIG_CONFASSISTANT['CONSORTIUM']['name']) . "-" . $this->getDeviceId();
+        if (isset($this->attributes['profile:customsuffix'][1])) {
             // this string will end up as a filename on a filesystem, so always
             // take a latin-based language variant if available
             // and then scrub non-ASCII just in case
-            return $consortiumName . "-" . $this->getDeviceId() . iconv("UTF-8", "US-ASCII//TRANSLIT", preg_replace($replace_pattern, '_', $this->attributes['profile:customsuffix'][1]));
+            return $baseName . $this->customTranslit($this->attributes['profile:customsuffix'][1]);
         }
         // Okay, no custom suffix. 
         // Use the configured inst name and apply shortening heuristics
         $lang_pointer = CONFIG['LANGUAGES'][$this->languageInstance->getLang()]['latin_based'] == TRUE ? 0 : 1;
         $this->loggerInstance->debug(5, "getInstallerBasename1:" . $this->attributes['general:instname'][$lang_pointer] . "\n");
-        $inst = iconv("UTF-8", "US-ASCII//TRANSLIT", preg_replace($replace_pattern, '_', $this->attributes['general:instname'][$lang_pointer]));
+        $inst = $this->customTranslit($this->attributes['general:instname'][$lang_pointer]);
         $this->loggerInstance->debug(4, "getInstallerBasename2:$inst\n");
         $Inst_a = explode('_', $inst);
         if (count($Inst_a) > 2) {
@@ -487,12 +433,12 @@ abstract class DeviceConfig extends \core\common\Entity {
         // and if the inst has multiple profiles, add the profile name behin
         if ($this->attributes['internal:profile_count'][0] > 1) {
             if (!empty($this->attributes['profile:name']) && !empty($this->attributes['profile:name'][$lang_pointer])) {
-                $profTemp = iconv("UTF-8", "US-ASCII//TRANSLIT", preg_replace($replace_pattern, '_', $this->attributes['profile:name'][$lang_pointer]));
+                $profTemp = $this->customTranslit($this->attributes['profile:name'][$lang_pointer]);
                 $prof = preg_replace('/_+$/', '', $profTemp);
-                return $consortiumName . '-' . $this->getDeviceId() . $inst . '-' . $prof;
+                return $baseName . $inst . '-' . $prof;
             }
         }
-        return $consortiumName . '-' . $this->getDeviceId() . $inst;
+        return $baseName . $inst;
     }
 
     /**
@@ -560,13 +506,13 @@ abstract class DeviceConfig extends \core\common\Entity {
      * @return array
      */
     private function getConsortia() {
-        if(!isset(CONFIG_CONFASSISTANT['CONSORTIUM']['interworking-consortium-oi'])) {
+        if (!isset(CONFIG_CONFASSISTANT['CONSORTIUM']['interworking-consortium-oi'])) {
             return ([]);
         }
         $consortia = CONFIG_CONFASSISTANT['CONSORTIUM']['interworking-consortium-oi'];
         if (isset($this->attributes['media:consortium_OI'])) {
             foreach ($this->attributes['media:consortium_OI'] as $new_oi) {
-                if(!in_array($new_oi, $consortia)) {
+                if (!in_array($new_oi, $consortia)) {
                     $consortia[] = $new_oi;
                 }
             }
@@ -592,7 +538,7 @@ abstract class DeviceConfig extends \core\common\Entity {
      * @return array list of filenames and the mime types
      * @throws Exception
      */
-    private function saveLogoFile($logos,$type) {
+    private function saveLogoFile($logos, $type) {
         $iterator = 0;
         $returnarray = [];
         foreach ($logos as $blob) {

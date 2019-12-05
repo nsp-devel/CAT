@@ -53,7 +53,7 @@ $donatecode_en = "<div style='font-size: 14pt; text-align: center; padding-top: 
 
 
 $visibility = 'index';
-include_once('Divs.php');
+require_once 'Divs.php';
 $divs = new Divs($Gui);
 $operatingSystem = $Gui->detectOS();
 $Gui->loggerInstance->debug(4, $operatingSystem);
@@ -69,8 +69,8 @@ if (preg_match('/Android/', $userAgent)) {
 } else {
     $profile_list_size = 4;
 }
-include("user/js/roll.php");
-include("user/js/cat_js.php");
+require "user/js/roll.php";
+require "user/js/cat_js.php";
 ?>
     var loading_ico = new Image();
 </script>
@@ -85,33 +85,28 @@ include("user/js/cat_js.php");
 <link rel="stylesheet" media="screen" type="text/css" href="<?php echo $Gui->skinObject->findResourceUrl("CSS", "cat-user.css"); ?>" />
 </head>
 <body>
-    <div id="wrap">
-        <?php echo $divs->div_heading($visibility); ?>
-        <div id="main_page">
-
-            <div id="loading_ico">
-                <?php echo _("Authenticating") . "..." ?><br><img src="<?php echo $Gui->skinObject->findResourceUrl("IMAGES", "icons/loading51.gif"); ?>" alt="Authenticating ..."/>
-            </div>
-            <div id="info_overlay"> <!-- device info -->
-                <div id="info_window"></div>
-                <img id="info_menu_close" class="close_button" src="<?php echo $Gui->skinObject->findResourceUrl("IMAGES", "icons/button_cancel.png"); ?>" ALT="Close"/>
-            </div>
-            <div id="main_menu_info" style="display:none"> <!-- stuff triggered form main menu -->
-                <img id="main_menu_close" class="close_button" src="<?php echo $Gui->skinObject->findResourceUrl("IMAGES", "icons/button_cancel.png"); ?>" ALT="Close"/>
-                <div id="main_menu_content"></div>
-            </div>
-            <div id="main_body">
-
-                <?php if (empty($_REQUEST['idp'])) { ?>
-                    <div id="front_page">
-                        <form id="cat_form" name="cat_form" method="POST"  accept-charset="UTF-8" action="<?php echo rtrim(dirname($_SERVER['SCRIPT_NAME']), '/'); ?>/">
-                            <?php
-                            echo $divs->div_roller();
-                            echo $divs->div_top_welcome();
-                            echo $divs->div_main_button();
-                            ?>
-                            <input type="hidden" name="lang" id="lang"/>
-                        </form>
+<div id="wrap">
+    <form id="cat_form" name="cat_form" method="POST"  accept-charset="UTF-8" action="<?php echo rtrim(dirname($_SERVER['SCRIPT_NAME']), '/'); ?>/">
+    <?php echo $divs->divHeading($visibility); ?>
+    <div id="main_page">
+        <div id="loading_ico">
+          <?php echo _("Authenticating") . "..." ?><br><img src="<?php echo $Gui->skinObject->findResourceUrl("IMAGES", "icons/loading51.gif"); ?>" alt="Authenticating ..."/>
+        </div>
+        <div id="info_overlay"> <!-- device info -->
+            <div id="info_window"></div>
+            <img id="info_menu_close" class="close_button" src="<?php echo $Gui->skinObject->findResourceUrl("IMAGES", "icons/button_cancel.png"); ?>" ALT="Close"/>
+        </div>
+        <div id="main_menu_info" style="display:none"> <!-- stuff triggered form main menu -->
+          <img id="main_menu_close" class="close_button" src="<?php echo $Gui->skinObject->findResourceUrl("IMAGES", "icons/button_cancel.png"); ?>" ALT="Close"/>
+          <div id="main_menu_content"></div>
+        </div>
+        <div id="main_body">
+         <?php if (empty($_REQUEST['idp'])) { ?>
+              <div id="front_page">
+                  <?php
+                        echo $divs->divRoller();
+                        echo $divs->divTopWelcome();
+                        echo $divs->divMainButton(); ?>
                         <?php
                         if (preg_match("/de/", $Gui->languageInstance->getLang())) {
                             echo $donatecode_de;
@@ -119,48 +114,45 @@ include("user/js/cat_js.php");
                             echo $donatecode_en;
                         }
                         ?>
-                    </div> <!-- id="front_page" -->
-                <?php } ?>
-                <!-- the user_page div contains all information for a given IdP, i.e. the profile selection (if multiple profiles are defined)
-                     and the device selection (including the automatic OS detection ) -->
-                <div id="user_page">
-                    <form id="cat_form2" name="cat_form2" method="POST"  accept-charset="UTF-8" action="<?php echo rtrim(dirname($_SERVER['SCRIPT_NAME']), '/'); ?>/">
-                        <?php
-                        echo $divs->div_institution();
-                        echo $divs->div_federation();
-                        echo $divs->div_profiles();
-                        ?>
-                        <div id="user_info"></div> <!-- this will be filled with the profile contact information -->
-                        <?php echo $divs->div_user_welcome() ?>
-                        <?php echo $divs->div_silverbullet() ?>
-                        <div id="profile_redirect"> <!-- this is shown when the entire profile is redirected -->
-                            <?php echo $Gui->textTemplates->templates[web\lib\user\DOWNLOAD_REDIRECT]; ?>
-                            <br>
-                            <span class="redirect_link">
-                                <a id="profile_redirect_bt" href="" target="_blank"><?php echo $Gui->textTemplates->templates[\web\lib\user\DOWNLOAD_REDIRECT_CONTINUE]; ?>
-                                </a>
-                            </span>
-                        </div> <!-- id="profile_redirect" -->
-                        <div id="devices" class="device_list">
-                            <?php
-                            // this part is shown when we have guessed the OS -->
-                            if ($operatingSystem) {
-                                echo $divs->div_guess_os($operatingSystem);
-                            }
-                            echo $divs->div_otherinstallers();
-                            ?>
-                        </div> <!-- id="devices" -->
-                        <input type="hidden" name="profile" id="profile_id"/>
-                        <input type="hidden" name="idp" id="inst_id"/>
-                        <input type="hidden" name="inst_name" id="inst_name"/>
-                    </form>
-                </div> <!-- id="user_page" -->
-
-            </div>
-        </div>
-        <div id="vertical_fill">&nbsp;</div>
-        <?php echo $divs->div_footer(); ?>
+              </div> <!-- id="front_page" -->
+         <?php } ?>
+            <!-- the user_page div contains all information for a given IdP, i.e. the profile selection (if multiple profiles are defined)
+                 and the device selection (including the automatic OS detection ) -->
+            <div id="user_page">
+                <?php  
+                    echo $divs->divInstitution();
+                    echo $divs->divFederation();
+                    echo $divs->divProfiles(); ?>
+                <div id="user_info"></div> <!-- this will be filled with the profile contact information -->
+                <?php echo $divs->divUserWelcome() ?>
+                <?php echo $divs->divSilverbullet() ?>
+                <div id="profile_redirect"> <!-- this is shown when the entire profile is redirected -->
+                    <?php echo $Gui->textTemplates->templates[web\lib\user\DOWNLOAD_REDIRECT]; ?>
+                    <br>
+                    <span class="redirect_link">
+                        <a id="profile_redirect_bt" href="" target="_blank"><?php echo $Gui->textTemplates->templates[\web\lib\user\DOWNLOAD_REDIRECT_CONTINUE]; ?>
+                        </a>
+                    </span>
+                </div> <!-- id="profile_redirect" -->
+                <div id="devices" class="device_list">
+                    <?php
+                        // this part is shown when we have guessed the OS -->
+                        if ($operatingSystem) {
+                            echo $divs->divGuessOs($operatingSystem);
+                        }
+                        echo $divs->divOtherinstallers();
+                    ?>
+                </div> <!-- id="devices" -->
+                <input type="hidden" name="profile" id="profile_id"/>
+                <input type="hidden" name="idp" id="inst_id"/>
+                <input type="hidden" name="inst_name" id="inst_name"/>
+                <input type="hidden" name="lang" id="lang"/>
+            </div> <!-- id="user_page" -->
+      </div>
     </div>
-
+   </form>
+    <div id="vertical_fill">&nbsp;</div>
+    <?php echo $divs->divFooter(); ?>
+</div>
 </body>
 </html>

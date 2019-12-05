@@ -379,6 +379,7 @@ build:
                     - sudo apt -y remove python
                     - sudo apt -y install python3.5 python3-pip
                     - sudo python3.5 -m pip install --upgrade --force pip
+                    - sudo apt -y remove python3-six
                     - sudo python3.5 -m pip install pylint distro
 
             tests:
@@ -391,7 +392,7 @@ build:
                     - wget http://ci.test/user/API.php?action=downloadInstaller\&api_version=2\&lang=en\&device=apple_hi_sierra\&profile=3 -O /home/scrutinizer/artifacts/AppleInstaller.mobileconfig --no-verbose
                     - file /home/scrutinizer/artifacts/AppleInstaller.mobileconfig
                     - wget http://ci.test/user/API.php?action=downloadInstaller\&api_version=2\&lang=en\&device=linux\&profile=3 -O /home/scrutinizer/artifacts/LinuxInstaller.py --no-verbose
-                    - pylint /home/scrutinizer/artifacts/LinuxInstaller.py
+                    - pylint -E /home/scrutinizer/artifacts/LinuxInstaller.py
     environment:
         variables:
             MY_PATH: '/home/scrutinizer/vault/'
@@ -418,6 +419,7 @@ filter:
         - "web/external/*"
         - "web/apidoc/*"
         - "vendor/*"
+        - "tests/*"
     dependency_paths:
         - "core/PHPMailer/"
         - "core/phpqrcode.php"

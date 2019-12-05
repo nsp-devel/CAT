@@ -41,21 +41,21 @@ class SilverbulletInvitation extends common\Entity {
     /**
      * row ID in the database pertaining to this invitation. 0 on invalid invitations.
      * 
-     * @var int
+     * @var integer
      */
     public $identifier;
 
     /**
      * The profile this invitation belongs to. 0 on invalid invitations.
      * 
-     * @var int
+     * @var integer
      */
     public $profile;
 
     /**
      * The user this invitation was created for (integer DB ID). 0 on invalid invitations.
      * 
-     * @var int
+     * @var integer
      */
     public $userId;
 
@@ -67,7 +67,7 @@ class SilverbulletInvitation extends common\Entity {
 
     /**
      * 
-     * @var int
+     * @var integer
      */
     public $invitationTokenStatus;
 
@@ -81,14 +81,14 @@ class SilverbulletInvitation extends common\Entity {
     /**
      * How many devices were allowed to be activated in total? 0 on invalid invitations.
      * 
-     * @var int
+     * @var integer
      */
     public $activationsTotal;
 
     /**
      * How many devices have not yet been activated? 0 on invalid invitations.
      *
-     * @var int
+     * @var integer
      */
     public $activationsRemaining;
 
@@ -115,11 +115,17 @@ class SilverbulletInvitation extends common\Entity {
      * instantiates an invitation identified by the token
      * 
      * @param string $invitationId token
+     * @throws Exception
      */
     public function __construct($invitationId) {
         parent::__construct();
         $this->invitationTokenString = $invitationId;
-        $this->databaseHandle = DBConnection::handle("INST");
+        $handle = DBConnection::handle("INST");
+        if ($handle instanceof DBConnection) {
+            $this->databaseHandle = $handle;
+        } else {
+            throw new Exception("This database type is never an array!");
+        }
         /*
          * Finds invitation by its token attribute and loads all certificates generated using the token.
          * Certificate details will always be empty, since code still needs to be adapted to return multiple certificates information.
@@ -154,7 +160,7 @@ class SilverbulletInvitation extends common\Entity {
         while ($runner = mysqli_fetch_object(/** @scrutinizer ignore-type */ $certificatesResult)) {
             $this->associatedCertificates[] = new \core\SilverbulletCertificate($runner->serial_number, $runner->ca_type);
         }
-        $this->activationsRemaining = (int) $this->activationsTotal - (int) $certificatesNumber;
+        $this->activationsRemaining = (int) ($this->activationsTotal - $certificatesNumber);
         // always check first if it is expired
         $now = new \DateTime();
         $expiryObject = new \DateTime($this->expiry);
@@ -226,7 +232,10 @@ class SilverbulletInvitation extends common\Entity {
      * @return string
      */
     public function invitationMailSubject() {
-        return sprintf(_("Your %s access is ready"), CONFIG_CONFASSISTANT['CONSORTIUM']['display_name']);
+        common\Entity::intoThePotatoes();
+        $retval = sprintf(_("Your %s access is ready"), CONFIG_CONFASSISTANT['CONSORTIUM']['display_name']);
+        common\Entity::outOfThePotatoes();
+        return $retval;
     }
 
     /**
@@ -235,6 +244,7 @@ class SilverbulletInvitation extends common\Entity {
      * @return string
      */
     public function invitationMailBody() {
+        common\Entity::intoThePotatoes();
         $text = _("Hello!");
         $text .= "\n\n";
         $text .= sprintf(_("A new %s access credential has been created for you by your network administrator."), CONFIG_CONFASSISTANT['CONSORTIUM']['display_name']);
@@ -246,7 +256,7 @@ class SilverbulletInvitation extends common\Entity {
         $text .= _("Regards,");
         $text .= "\n\n";
         $text .= sprintf("%s", CONFIG['APPEARANCE']['productname_long']);
-
+        common\Entity::outOfThePotatoes();
         return $text;
     }
 
@@ -256,7 +266,7 @@ class SilverbulletInvitation extends common\Entity {
      * @return string
      */
     private static function generateInvitation() {
-        return hash("sha512", base_convert(rand(0, (int) 10e16), 10, 36));
+        return hash("sha512", openssl_random_pseudo_bytes(100));
     }
 
     /**
@@ -280,7 +290,7 @@ class SilverbulletInvitation extends common\Entity {
      * @return void
      */
     public function revokeInvitation() {
-        $query = "UPDATE silverbullet_invitation SET expiry = UNIX_TIMESTAMP() WHERE id = ? AND profile_id = ?";
+        $query = "UPDATE silverbullet_invitation SET expiry = CURRENT_TIMESTAMP WHERE id = ? AND profile_id = ?";
         $this->databaseHandle->exec($query, "ii", $this->identifier, $this->profile);
     }
 
@@ -307,7 +317,13 @@ class SilverbulletInvitation extends common\Entity {
         common\Entity::intoThePotatoes();
         $mail = \core\common\OutsideComm::mailHandle();
         $uiElements = new \web\lib\admin\UIElements();
-        $bytestream = $uiElements->pngInjectConsortiumLogo(\QRcode::png($this->link(), FALSE, QR_ECLEVEL_Q, QRCODE_PIXELS_PER_SYMBOL), QRCODE_PIXELS_PER_SYMBOL);
+        // the following never returns NULL because $filename is FALSE; but
+        // make sure it really is so for Scrutinizer
+        $rawQr = \QRcode::png($this->link(), FALSE, QR_ECLEVEL_Q, QRCODE_PIXELS_PER_SYMBOL);
+        if ($rawQr === NULL) {
+            throw new Exception("Something went seriously wrong with the QR code generation!");
+        }
+        $bytestream = $uiElements->pngInjectConsortiumLogo($rawQr, QRCODE_PIXELS_PER_SYMBOL);
         $mail->FromName = sprintf(_("%s Invitation System"), CONFIG['APPEARANCE']['productname']);
         $mail->Subject = $this->invitationMailSubject();
         $mail->Body = $this->invitationMailBody();

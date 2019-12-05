@@ -40,28 +40,28 @@ class RFC7585Tests extends AbstractTest {
     /**
      * maintains state for the question: has the NAPTR existence check already been executed? Holds the number of NAPTR records found if so.
      * 
-     * @var int
+     * @var integer
      */
     private $NAPTR_executed;
     
     /**
      * maintains state for the question: has the NAPTR compliance check already been executed?
      * 
-     * @var int
+     * @var integer
      */
     private $NAPTR_compliance_executed;
     
     /**
      * maintains state for the question: has the NAPTR SRV check already been executed? Holds the number of SRV records if so.
      * 
-     * @var int
+     * @var integer
      */
     private $NAPTR_SRV_executed;
     
     /**
      * maintains state for the question: has the existrence of hostnames been checked already? Holds the number of IP:port pairs if so.
      * 
-     * @var int
+     * @var integer
      */
     private $NAPTR_hostname_executed;
     
@@ -126,7 +126,7 @@ class RFC7585Tests extends AbstractTest {
      */
     public function __construct(string $realm) {
         parent::__construct();
-
+        \core\common\Entity::intoThePotatoes();
         // return codes specific to NAPTR existence checks
         /**
          * no NAPTRs for domain; this is not an error, simply means that realm is not doing dynamic discovery for any service
@@ -150,6 +150,7 @@ class RFC7585Tests extends AbstractTest {
         $this->NAPTR_SRV_records = [];
         $this->NAPTR_hostname_records = [];
         $this->errorlist = [];
+        \core\common\Entity::outOfThePotatoes();
     }
 
     /**

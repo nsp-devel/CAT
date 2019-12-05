@@ -149,6 +149,10 @@ function popupRedirectWindow(form) {
     postXML(createWindow, form);
 }
 
+function popupStatsWindow(form) {
+    postXML(createWindow, form);
+}
+
 function popupQRWindow(form) {
     postXML(createQRWindow, form);
 }
@@ -164,7 +168,7 @@ function createWindow() {
 
 function createQRWindow() {
     if (this.readyState === 4 && this.status === 200) {
-        var infoBox;
+        var qrBox;
         qrBox = createMsgbox("qr");
         qrBox.innerHTML += this.responseText;
         centerElement(qrBox);

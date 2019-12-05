@@ -78,7 +78,7 @@ def byte_to_string(barray):
 
 def get_input(prompt):
     if sys.version_info.major < 3:
-        return raw_input(prompt)
+        return raw_input(prompt) # pylint: disable=undefined-variable
     return input(prompt)
 
 
@@ -221,7 +221,7 @@ class Messages(object):
     enter_import_password = "enter your import password"
     incorrect_password = "incorrect password"
     repeat_password = "repeat your password"
-    passwords_difffer = "passwords do not match"
+    passwords_differ = "passwords do not match"
     installation_finished = "Installation successful"
     cat_dir_exists = "Directory {} exists; some of its files may be " \
         "overwritten."
@@ -480,7 +480,7 @@ class InstallerData(object):
             password1 = self.prompt_nonempty_string(
                 0, Messages.repeat_password)
             if password != password1:
-                self.alert(Messages.passwords_difffer)
+                self.alert(Messages.passwords_differ)
         self.password = password
 
     def __get_graphics_support(self):
@@ -702,16 +702,15 @@ class WpaConf(object):
     Prepare and save wpa_supplicant config file
     """
     def __prepare_network_block(self, ssid, user_data):
-        altsubj_match = "altsubject_match=\"%s\"" % ";".join(Config.servers)
         out = """network={
-        ssid=""" + ssid + """
+        ssid=\"""" + ssid + """\"
         key_mgmt=WPA-EAP
         pairwise=CCMP
         group=CCMP TKIP
         eap=""" + Config.eap_outer + """
         ca_cert=\"""" + os.environ.get('HOME') + """/.cat_installer/ca.pem\"
         identity=\"""" + user_data.username + """\"
-        altsubject_match=\"""" + altsubj_match + """\"
+        altsubject_match=\"""" + ";".join(Config.servers) + """\"
         phase2=\"auth=""" + Config.eap_inner + """\"
         password=\"""" + user_data.password + """\"
         anonymous_identity=\"""" + Config.anonymous_identity + """\"
@@ -806,7 +805,7 @@ class CatNMConfigTool(object):
             props = dbus.Interface(proxy, "org.freedesktop.DBus.Properties")
             version = props.Get("org.freedesktop.NetworkManager", "Version")
         except dbus.exceptions.DBusException:
-            version = "0.8"
+            version = ""
         if re.match(r'^1\.', version):
             self.nm_version = "1.0"
             return

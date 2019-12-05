@@ -52,7 +52,7 @@ class RADIUSTests extends AbstractTest {
     /**
      * Was the reachability check executed already?
      * 
-     * @var int
+     * @var integer
      */
     private $UDP_reachability_executed;
     
@@ -102,7 +102,7 @@ class RADIUSTests extends AbstractTest {
     /**
      * Do we run throrough or shallow checks?
      * 
-     * @var int
+     * @var integer
      */
     private $opMode;
     
@@ -923,7 +923,7 @@ network={
      * 
      * @param array  $testresults by-reference, add our findings if any
      * @param string $tmpDir      working directory
-     * @return array
+     * @return array|FALSE an array with all the certs, CRLs and oddities, or FALSE if the EAP conversation did not yield a certificate at all
      * @throws Exception
      */
     private function extractIncomingCertsfromEAP(&$testresults, $tmpDir) {
@@ -937,13 +937,15 @@ network={
          * 4) CDP URL (Windows Phone 8 barks if not present)
          * 5) there should be exactly one server cert in the chain
          */
-
+        
         $x509 = new \core\common\X509();
-        $eapCertArray = [];
 // $eap_certarray holds all certs received in EAP conversation
         $incomingData = file_get_contents($tmpDir . "/serverchain.pem");
-        if ($incomingData !== FALSE) {
+        if ($incomingData !== FALSE && strlen($incomingData) > 0) {
             $eapCertArray = $x509->splitCertificate($incomingData);
+        } else {
+            $testresults['cert_oddities'][] = RADIUSTests::CERTPROB_NO_CERTIFICATE_IN_CONVERSATION;
+            return FALSE;
         }
         $eapIntermediates = [];
         $eapIntermediateCRLs = [];
@@ -999,7 +1001,7 @@ network={
         }
         switch (count($servercert)) {
             case 0:
-                $testresults['cert_oddities'][] = RADIUSTests::CERTPROB_NO_SERVER_CERT;
+                    $testresults['cert_oddities'][] = RADIUSTests::CERTPROB_NO_SERVER_CERT;
                 break;
             default:
 // check (first) server cert's properties
@@ -1083,12 +1085,12 @@ network={
             $intermOdditiesCAT = [];
             $verifyResult = 0;
 
-            if ($this->opMode == self::RADIUS_TEST_OPERATION_MODE_THOROUGH) {
+            if ($this->opMode == self::RADIUS_TEST_OPERATION_MODE_THOROUGH && $bundle !== FALSE) {
                 $verifyResult = $this->thoroughChainChecks($testresults, $intermOdditiesCAT, $tmpDir, $bundle["SERVERCERT"], $bundle["INTERMEDIATE_CA"], $bundle["INTERMEDIATE_CRL"]);
                 $this->thoroughNameChecks($bundle["SERVERCERT"][0], $testresults);
             }
 
-            $testresults['cert_oddities'] = array_merge($testresults['cert_oddities'], $bundle["INTERMEDIATE_OBSERVED_ODDITIES"]);
+            $testresults['cert_oddities'] = array_merge($testresults['cert_oddities'], $bundle["INTERMEDIATE_OBSERVED_ODDITIES"] ?? []);
             if (in_array(RADIUSTests::CERTPROB_OUTSIDE_VALIDITY_PERIOD, $intermOdditiesCAT) && $verifyResult == 3) {
                 $key = array_search(RADIUSTests::CERTPROB_OUTSIDE_VALIDITY_PERIOD, $intermOdditiesCAT);
                 $intermOdditiesCAT[$key] = RADIUSTests::CERTPROB_OUTSIDE_VALIDITY_PERIOD_WARN;
@@ -1128,6 +1130,7 @@ network={
      * @return array
      */
     public function consolidateUdpResult($host) {
+        \core\common\Entity::intoThePotatoes();
         $ret = [];
         $serverCert = [];
         $udpResult = $this->UDP_reachability_result[$host];
@@ -1161,6 +1164,7 @@ network={
         $ret['time_millisec'] = sprintf("%d", $udpResult['time_millisec']);
         if (empty($udpResult['cert_oddities'])) {
             $ret['message'] = _("<strong>Test successful</strong>: a bidirectional RADIUS conversation with multiple round-trips was carried out, and ended in an Access-Reject as planned.");
+            \core\common\Entity::outOfThePotatoes();
             return $ret;
         }
 
@@ -1174,7 +1178,7 @@ network={
             $ret['level'] = max($ret['level'], $this->returnCodes[$oddity]["severity"]);
             $ret['cert_oddities'][] = $o;
         }
-
+        \core\common\Entity::outOfThePotatoes();
         return $ret;
     }
 

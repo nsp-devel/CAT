@@ -6,9 +6,9 @@ Packages required prior to installing CAT
 The CAT generates installers for numerous operating systems. Consequently, many console tools need to be installed for all the profile generators to work correctly. The prerequisites are:
 
 * Apache2 Web Server
-* MySQL/MariaDB Server
+* MySQL/MariaDB Server (we recommend MariaDB and regularly test against versions MariaDB 5.5 and MySQL 5.7)
 * PHP 7.2.0 or higher; on Ubuntu also the "php7.0-intl" package
-* Required PHP extensions: "gettext", "openssl", "PECL:IMagick", "GD" and "MySQL"
+* Required PHP extensions: "gettext", "openssl", "PECL:IMagick" (on RHEL/CentOS 8 instead: PECL:GMagick), "GD" and "MySQL"
 * Optional PHP extensions: "GeoIP" (deprecated v1 GeoIP API)
 * simpleSAMLphp version 1.15.0 or higher
 * NSIS 3.00 or higher - either as a native Linux binary or on Wine
