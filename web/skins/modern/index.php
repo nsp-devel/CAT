@@ -86,7 +86,6 @@ require "user/js/cat_js.php";
 </head>
 <body>
 <div id="wrap">
-    <form id="cat_form" name="cat_form" method="POST"  accept-charset="UTF-8" action="<?php echo rtrim(dirname($_SERVER['SCRIPT_NAME']), '/'); ?>/">
     <?php echo $divs->divHeading($visibility); ?>
     <div id="main_page">
         <div id="loading_ico">
@@ -103,10 +102,13 @@ require "user/js/cat_js.php";
         <div id="main_body">
          <?php if (empty($_REQUEST['idp'])) { ?>
               <div id="front_page">
+                  <form id="cat_form" name="cat_form" method="POST"  accept-charset="UTF-8" action="<?php echo rtrim(dirname($_SERVER['SCRIPT_NAME']), '/'); ?>/">
                   <?php
                         echo $divs->divRoller();
                         echo $divs->divTopWelcome();
                         echo $divs->divMainButton(); ?>
+                      <input type="hidden" name="lang" id="lang"/>
+                      </form>
                         <?php
                         if (preg_match("/de/", $Gui->languageInstance->getLang())) {
                             echo $donatecode_de;
@@ -119,6 +121,7 @@ require "user/js/cat_js.php";
             <!-- the user_page div contains all information for a given IdP, i.e. the profile selection (if multiple profiles are defined)
                  and the device selection (including the automatic OS detection ) -->
             <div id="user_page">
+                <form id="cat_form2" name="cat_form2" method="POST"  accept-charset="UTF-8" action="<?php echo rtrim(dirname($_SERVER['SCRIPT_NAME']), '/'); ?>/">
                 <?php  
                     echo $divs->divInstitution();
                     echo $divs->divFederation();
@@ -146,11 +149,10 @@ require "user/js/cat_js.php";
                 <input type="hidden" name="profile" id="profile_id"/>
                 <input type="hidden" name="idp" id="inst_id"/>
                 <input type="hidden" name="inst_name" id="inst_name"/>
-                <input type="hidden" name="lang" id="lang"/>
+                </form>
             </div> <!-- id="user_page" -->
       </div>
     </div>
-   </form>
     <div id="vertical_fill">&nbsp;</div>
     <?php echo $divs->divFooter(); ?>
 </div>
