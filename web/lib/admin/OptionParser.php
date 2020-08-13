@@ -372,13 +372,6 @@ class OptionParser extends \core\common\Entity {
                                         continue 3;
                                     }
                                     break;
-                                case "media:remove_SSID":
-                                    $content = $this->validator->string($listOfEntries["$objId-" . \core\Options::TYPECODE_STRING]);
-                                    if ($content == "eduroam") {
-                                        $bad[] = $objValue;
-                                        continue 3;
-                                    }
-                                    break;
                                 case "media:force_proxy":
                                     $content = $this->validator->string($listOfEntries["$objId-" . \core\Options::TYPECODE_STRING]);
                                     $serverAndPort = explode(':', strrev($content), 2);
